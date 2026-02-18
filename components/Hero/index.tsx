@@ -6,6 +6,7 @@ import { FiSearch, FiAlertCircle, FiDownload, FiHeart, FiMessageCircle, FiShare2
 import { useDispatch, setPagination, setVideoLoading, setVidoes } from '../../redux';
 import { RootState, useSelector } from '../../redux';
 import axios from 'axios';
+import Image from 'next/image';
 
 const Hero = () => {
 	const dispatch = useDispatch();
@@ -320,50 +321,66 @@ const Hero = () => {
 								className="float"
 							>
 								{/* Mock Video Card */}
-								<div className="relative bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl overflow-hidden shadow-2xl">
-									{/* Video Thumbnail Area */}
-									<div className="aspect-[9/11] bg-gradient-to-br from-purple-900/50 to-pink-900/50 relative flex items-center justify-center">
-										{/* Mock Play Button */}
-										<div className="w-20 h-20 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
-											<div className="w-0 h-0 border-t-8 border-t-transparent border-l-12 border-l-white border-b-8 border-b-transparent ml-1" />
-										</div>
-										{/* TikTok-style UI overlay */}
-										<div className="absolute right-4 bottom-24 flex flex-col gap-6">
-											<div className="flex flex-col items-center gap-1">
-												<div className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center">
-													<FiHeart className="w-5 h-5 text-white" />
-												</div>
-												<span className="text-xs text-white/80">842K</span>
-											</div>
-											<div className="flex flex-col items-center gap-1">
-												<div className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center">
-													<FiMessageCircle className="w-5 h-5 text-white" />
-												</div>
-												<span className="text-xs text-white/80">12.4K</span>
-											</div>
-											<div className="flex flex-col items-center gap-1">
-												<div className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center">
-													<FiShare2 className="w-5 h-5 text-white" />
-												</div>
-												<span className="text-xs text-white/80">Share</span>
-											</div>
-										</div>
+								<div className="relative aspect-[9/14] bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl overflow-hidden shadow-2xl">
+									{/* Background Image - Covers entire card */}
+									<div className="absolute inset-0">
+										<Image
+											src="/img/mahadi-hasan.jpg"
+											alt="Mahadi Hasan"
+											fill
+											className="object-cover"
+											sizes="(max-width: 768px) 0vw, 400px"
+										/>
+										{/* Gradient overlay - stronger at bottom for text readability */}
+										<div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/50 to-black/80" />
 									</div>
 
-									{/* Video Info */}
-									<div className="p-4 bg-black/40 backdrop-blur-sm border-t border-white/10">
-										<div className="flex items-center justify-between">
-											<div className="flex items-center gap-3">
-												<div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-500 to-pink-500" />
-												<div>
-													<p className="text-sm font-semibold text-white">@mahadidev</p>
-													<p className="text-xs text-gray-400">Original Sound</p>
+									{/* All content overlayed on the image */}
+									<div className="relative h-full flex flex-col">
+										{/* Top section with play button and stats */}
+										<div className="flex-1 flex items-center justify-center">
+											{/* Mock Play Button */}
+											<div className="relative z-10 w-20 h-20 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
+												<FiDownload className="w-8 h-8 text-white" />
+											</div>
+											{/* TikTok-style UI overlay */}
+											<div className="absolute right-4 bottom-20 flex flex-col gap-6 z-10">
+												<div className="flex flex-col items-center gap-1">
+													<div className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center">
+														<FiHeart className="w-5 h-5 text-white" />
+													</div>
+													<span className="text-xs text-white/80">842K</span>
+												</div>
+												<div className="flex flex-col items-center gap-1">
+													<div className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center">
+														<FiMessageCircle className="w-5 h-5 text-white" />
+													</div>
+													<span className="text-xs text-white/80">12.4K</span>
+												</div>
+												<div className="flex flex-col items-center gap-1">
+													<div className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center">
+														<FiShare2 className="w-5 h-5 text-white" />
+													</div>
+													<span className="text-xs text-white/80">Share</span>
 												</div>
 											</div>
-											{/* Download Badge */}
-											<div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-500/20 border border-green-500/30">
-												<FiDownload className="w-4 h-4 text-green-400" />
-												<span className="text-sm font-medium text-green-400">Ready</span>
+										</div>
+
+										{/* Video Info overlay at bottom */}
+										<div className="p-4">
+											<div className="flex items-center justify-between">
+												<div className="flex items-center gap-3">
+													<div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-500 to-pink-500" />
+													<div>
+														<p className="text-sm font-semibold text-white">@mahadidev</p>
+														<p className="text-xs text-gray-300">Original Sound</p>
+													</div>
+												</div>
+												{/* Download Badge */}
+												<div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-500/20 border border-green-500/30">
+													<FiDownload className="w-4 h-4 text-green-400" />
+													<span className="text-sm font-medium text-green-400">Ready</span>
+												</div>
 											</div>
 										</div>
 									</div>
