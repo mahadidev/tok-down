@@ -35,10 +35,10 @@ const Navigation = () => {
 						href="/"
 						onClick={() => setIsMobileMenuOpen(false)}
 					>
-						<div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center">
+						<div className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500 to-amber-600 flex items-center justify-center">
 							<span className="text-white font-bold text-lg">TD</span>
 						</div>
-						<span className="font-semibold text-lg group-hover:text-violet-400 transition-colors">
+						<span className="font-semibold text-lg group-hover:text-orange-400 transition-colors">
 							Tok Down
 						</span>
 					</Link>
@@ -56,7 +56,7 @@ const Navigation = () => {
 						))}
 						<Link
 							href="#"
-							className="px-5 py-2.5 text-sm font-medium bg-gradient-to-r from-violet-500 to-purple-600 text-white rounded-xl hover:from-violet-600 hover:to-purple-700 transition-all shadow-lg shadow-violet-500/25"
+							className="px-5 py-2.5 text-sm font-medium bg-gradient-to-r from-orange-500 to-amber-600 text-white rounded-xl hover:from-orange-600 hover:to-amber-700 transition-all shadow-lg shadow-orange-500/25"
 						>
 							Get Started
 						</Link>
@@ -95,7 +95,7 @@ const Navigation = () => {
 								))}
 								<Link
 									href="#"
-									className="px-5 py-2.5 text-base font-medium bg-gradient-to-r from-violet-500 to-purple-600 text-white rounded-xl text-center"
+									className="px-5 py-2.5 text-base font-medium bg-gradient-to-r from-orange-500 to-amber-600 text-white rounded-xl text-center"
 									onClick={() => setIsMobileMenuOpen(false)}
 								>
 									Get Started

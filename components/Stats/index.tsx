@@ -79,7 +79,7 @@ const Stats = () => {
 			value: 5000000,
 			suffix: '+',
 			label: 'Videos Downloaded',
-			gradient: 'from-violet-500 to-purple-600',
+			gradient: 'from-orange-500 to-amber-600',
 		},
 		{
 			icon: <FiUsers className="w-6 h-6" />,
@@ -107,7 +107,7 @@ const Stats = () => {
 	return (
 		<section className="py-24 relative overflow-hidden">
 			{/* Background Gradient */}
-			<div className="absolute inset-0 bg-gradient-to-b from-violet-500/5 to-transparent" />
+			<div className="absolute inset-0 bg-gradient-to-b from-orange-500/5 to-transparent" />
 
 			<div className="container relative">
 				{/* Section Header */}
@@ -118,7 +118,7 @@ const Stats = () => {
 						viewport={{ once: true }}
 						transition={{ duration: 0.5 }}
 					>
-						<span className="inline-block px-4 py-1.5 rounded-full bg-violet-500/10 text-violet-400 text-sm font-medium mb-4">
+						<span className="inline-block px-4 py-1.5 rounded-full bg-orange-500/10 text-orange-400 text-sm font-medium mb-4">
 							Stats
 						</span>
 						<h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">

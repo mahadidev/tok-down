@@ -56,7 +56,7 @@ const Footer = () => {
 							href="/"
 							className="flex items-center gap-2 mb-4"
 						>
-							<div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center">
+							<div className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500 to-amber-600 flex items-center justify-center">
 								<span className="text-white font-bold text-lg">TD</span>
 							</div>
 							<span className="font-semibold text-lg">Tok Down</span>
@@ -72,7 +72,7 @@ const Footer = () => {
 								<Link
 									key={social.name}
 									href={social.href}
-									className="w-10 h-10 rounded-lg bg-dark-800 border border-dark-700 flex items-center justify-center text-gray-400 hover:text-white hover:border-violet-500/50 transition-all"
+									className="w-10 h-10 rounded-lg bg-dark-800 border border-dark-700 flex items-center justify-center text-gray-400 hover:text-white hover:border-orange-500/50 transition-all"
 									aria-label={social.name}
 								>
 									{social.icon}

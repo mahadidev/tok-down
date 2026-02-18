@@ -19,7 +19,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 					type={type}
 					className={cn(
 						'w-full h-14 px-4 bg-dark-800/50 border border-dark-700 rounded-xl text-white placeholder:text-muted-foreground',
-						'focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent',
+						'focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent',
 						'transition-all duration-200',
 						icon && 'pl-12',
 						error && 'border-red-500 focus:ring-red-500',

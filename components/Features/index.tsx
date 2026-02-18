@@ -19,7 +19,7 @@ const Features = () => {
 			title: 'No Watermark',
 			description:
 				'Download TikTok videos without the annoying watermark overlay',
-		 gradient: 'from-violet-500 to-purple-600',
+		 gradient: 'from-orange-500 to-amber-600',
 		},
 		{
 			icon: <FiHardDrive className="w-6 h-6" />,
@@ -52,7 +52,7 @@ const Features = () => {
 			title: 'Virus Free',
 			description:
 				'All downloads are scanned and verified to be safe',
-			gradient: 'from-indigo-500 to-violet-500',
+			gradient: 'from-yellow-500 to-orange-500',
 		},
 	];
 
@@ -67,7 +67,7 @@ const Features = () => {
 						viewport={{ once: true }}
 						transition={{ duration: 0.5 }}
 					>
-						<span className="inline-block px-4 py-1.5 rounded-full bg-violet-500/10 text-violet-400 text-sm font-medium mb-4">
+						<span className="inline-block px-4 py-1.5 rounded-full bg-orange-500/10 text-orange-400 text-sm font-medium mb-4">
 							Features
 						</span>
 						<h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
@@ -89,7 +89,7 @@ const Features = () => {
 					{features.map((feature, index) => (
 						<motion.div
 							key={index}
-							className="group relative p-6 rounded-2xl bg-dark-800 border border-dark-700 hover:border-violet-500/30 transition-all duration-300"
+							className="group relative p-6 rounded-2xl bg-dark-800 border border-dark-700 hover:border-orange-500/30 transition-all duration-300"
 							whileHover={{ y: -4 }}
 						>
 							{/* Icon */}
@@ -100,7 +100,7 @@ const Features = () => {
 							</div>
 
 							{/* Content */}
-							<h3 className="text-xl font-semibold mb-2 group-hover:text-violet-400 transition-colors">
+							<h3 className="text-xl font-semibold mb-2 group-hover:text-orange-400 transition-colors">
 								{feature.title}
 							</h3>
 							<p className="text-gray-400 text-sm leading-relaxed">
@@ -108,7 +108,7 @@ const Features = () => {
 							</p>
 
 							{/* Glow Effect */}
-							<div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-violet-500/0 to-violet-500/0 group-hover:from-violet-500/5 group-hover:to-violet-500/0 transition-all duration-300 -z-10" />
+							<div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-orange-500/0 to-orange-500/0 group-hover:from-orange-500/5 group-hover:to-orange-500/0 transition-all duration-300 -z-10" />
 						</motion.div>
 					))}
 				</StaggerChildren>

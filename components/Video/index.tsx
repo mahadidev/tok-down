@@ -57,7 +57,7 @@ const Video = ({
 
 	return (
 		<motion.div
-			className="group bg-dark-700 rounded-2xl border border-dark-600 overflow-hidden hover:border-violet-500/30 transition-all duration-300"
+			className="group bg-dark-700 rounded-2xl border border-dark-600 overflow-hidden hover:border-orange-500/30 transition-all duration-300"
 			whileHover={{ y: -4 }}
 		>
 			{/* Video Player */}
@@ -139,8 +139,8 @@ const Video = ({
 						className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl font-medium transition-all ${
 							downloaded
 								? 'bg-emerald-600 text-white'
-								: 'bg-gradient-to-r from-violet-500 to-purple-600 text-white hover:from-violet-600 hover:to-purple-700'
-						} shadow-lg shadow-violet-500/20`}
+								: 'bg-gradient-to-r from-orange-500 to-amber-600 text-white hover:from-orange-600 hover:to-amber-700'
+						} shadow-lg shadow-orange-500/20`}
 						onClick={() => setDownloaded(true)}
 					>
 						{downloaded ? (
@@ -164,7 +164,7 @@ const Video = ({
 						className={`relative flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl font-medium transition-all border ${
 							copied
 								? 'bg-emerald-600/20 border-emerald-500 text-emerald-400'
-								: 'bg-dark-800 border-dark-700 text-gray-400 hover:border-violet-500/50 hover:text-white'
+								: 'bg-dark-800 border-dark-700 text-gray-400 hover:border-orange-500/50 hover:text-white'
 						}`}
 					>
 						{copied ? (

@@ -13,7 +13,7 @@ const HowItWorks = () => {
 			title: 'Copy Video URL',
 			description:
 				'Open TikTok and copy the link to the video you want to download, or find the username',
-			color: 'violet',
+			color: 'orange',
 		},
 		{
 			number: '02',
@@ -21,7 +21,7 @@ const HowItWorks = () => {
 			title: 'Paste & Search',
 			description:
 				'Paste the URL or enter the username in the search box above and click Search',
-			color: 'purple',
+			color: 'amber',
 		},
 		{
 			number: '03',
@@ -29,7 +29,7 @@ const HowItWorks = () => {
 			title: 'Download Video',
 			description:
 				'Click the download button on any video to save it without watermark',
-			color: 'indigo',
+			color: 'yellow',
 		},
 	];
 
@@ -44,7 +44,7 @@ const HowItWorks = () => {
 						viewport={{ once: true }}
 						transition={{ duration: 0.5 }}
 					>
-						<span className="inline-block px-4 py-1.5 rounded-full bg-violet-500/10 text-violet-400 text-sm font-medium mb-4">
+						<span className="inline-block px-4 py-1.5 rounded-full bg-orange-500/10 text-orange-400 text-sm font-medium mb-4">
 							How It Works
 						</span>
 						<h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
@@ -71,13 +71,13 @@ const HowItWorks = () => {
 						>
 							{/* Connector Line (Desktop) */}
 							{index < steps.length - 1 && (
-								<div className="hidden md:block absolute top-16 left-[60%] w-[80%] h-0.5 bg-gradient-to-r from-violet-500 to-transparent opacity-30" />
+								<div className="hidden md:block absolute top-16 left-[60%] w-[80%] h-0.5 bg-gradient-to-r from-orange-500 to-transparent opacity-30" />
 							)}
 
 							{/* Step Card */}
-							<div className="relative p-8 rounded-2xl bg-dark-800 border border-dark-700 hover:border-violet-500/30 transition-all duration-300 h-full">
+							<div className="relative p-8 rounded-2xl bg-dark-800 border border-dark-700 hover:border-orange-500/30 transition-all duration-300 h-full">
 								{/* Step Number */}
-								<div className="absolute -top-4 -left-4 w-12 h-12 rounded-xl bg-dark-900 border-2 border-violet-500 flex items-center justify-center text-violet-400 font-bold">
+								<div className="absolute -top-4 -left-4 w-12 h-12 rounded-xl bg-dark-900 border-2 border-orange-500 flex items-center justify-center text-orange-400 font-bold">
 									{step.number}
 								</div>
 
@@ -110,7 +110,7 @@ const HowItWorks = () => {
 				>
 					<a
 						href="#search"
-						className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-violet-500 to-purple-600 text-white font-semibold rounded-xl hover:from-violet-600 hover:to-purple-700 transition-all shadow-lg shadow-violet-500/25 hover:shadow-violet-500/40"
+						className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-orange-500 to-amber-600 text-white font-semibold rounded-xl hover:from-orange-600 hover:to-amber-700 transition-all shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40"
 					>
 						Try It Now
 						<FiDownload className="w-5 h-5" />

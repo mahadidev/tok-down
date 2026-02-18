@@ -112,7 +112,7 @@ const Feed = () => {
 							whileTap={{ scale: 0.95 }}
 							onClick={() => currentPage > 0 && onPaginate(currentPage - 1)}
 							disabled={currentPage === 0}
-							className="px-4 py-2 rounded-lg bg-dark-800 border border-dark-700 text-white disabled:opacity-50 disabled:cursor-not-allowed hover:border-violet-500/50 transition-all"
+							className="px-4 py-2 rounded-lg bg-dark-800 border border-dark-700 text-white disabled:opacity-50 disabled:cursor-not-allowed hover:border-orange-500/50 transition-all"
 						>
 							Previous
 						</motion.button>
@@ -126,8 +126,8 @@ const Feed = () => {
 								onClick={() => onPaginate(page)}
 								className={`w-10 h-10 rounded-lg font-medium transition-all ${
 									currentPage === page
-										? 'bg-gradient-to-r from-violet-500 to-purple-600 text-white'
-										: 'bg-dark-800 border border-dark-700 text-white hover:border-violet-500/50'
+										? 'bg-gradient-to-r from-orange-500 to-amber-600 text-white'
+										: 'bg-dark-800 border border-dark-700 text-white hover:border-orange-500/50'
 								}`}
 							>
 								{page + 1}
@@ -143,7 +143,7 @@ const Feed = () => {
 								onPaginate(currentPage + 1)
 							}
 							disabled={currentPage === pagesArray.length - 1}
-							className="px-4 py-2 rounded-lg bg-dark-800 border border-dark-700 text-white disabled:opacity-50 disabled:cursor-not-allowed hover:border-violet-500/50 transition-all"
+							className="px-4 py-2 rounded-lg bg-dark-800 border border-dark-700 text-white disabled:opacity-50 disabled:cursor-not-allowed hover:border-orange-500/50 transition-all"
 						>
 							Next
 						</motion.button>
