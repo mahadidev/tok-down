@@ -1,20 +1,36 @@
 import React from 'react';
-import { Feed, Footer, Navigation, SearchInput } from '../components';
+import {
+	Footer,
+	Navigation,
+	SearchInput,
+	Hero,
+	Features,
+	Stats,
+	HowItWorks,
+} from '../components';
 import { RootState, useSelector } from '../redux';
 
 const HomePage = () => {
 	const siteState = useSelector((state: RootState) => state.site);
 
 	return (
-		<div className="bg-[#121314] text-white">
+		<div className="min-h-screen flex flex-col bg-black text-white">
 			<Navigation />
-			<main
-				style={{
-					minHeight: `calc(100vh - (${siteState.navHeight}px + ${siteState.footerHeight}px))`,
-				}}
-			>
+			<main className="flex-1">
+				{/* Hero Section */}
+				<Hero />
+
+				{/* Search Section - includes Feed */}
 				<SearchInput />
-				<Feed />
+
+				{/* Features Section */}
+				<Features />
+
+				{/* Stats Section */}
+				<Stats />
+
+				{/* How It Works Section */}
+				<HowItWorks />
 			</main>
 			<Footer />
 		</div>

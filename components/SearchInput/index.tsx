@@ -1,5 +1,9 @@
+'use client';
+
 import axios from 'axios';
 import React, { useRef, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FiSearch, FiAlertCircle } from 'react-icons/fi';
 import {
 	RootState,
 	setPagination,
@@ -8,19 +12,17 @@ import {
 	useDispatch,
 	useSelector,
 } from '../../redux';
-import { Feed } from '../index';
+import Feed from '../Feed';
 
 const SearchInput = () => {
-	const [error, setError] = useState<null | string>(null);
-	const [videos, setvideos] = useState<any>(null);
-	const inputRef = useRef<any>();
-	const btnRef = useRef<any>();
+	const [error, setError] = useState<string | null>(null);
+	const inputRef = useRef<HTMLInputElement>(null);
 	const siteState = useSelector((state: RootState) => state.site);
+	const dispatch = useDispatch();
 
 	// get user post
-	const dispatch = useDispatch();
 	const getUserPost = (value: string) => {
-		var options = null;
+		let options = null;
 
 		if (value.includes('tiktok.com') && value.includes('/video/')) {
 			// get video by url
@@ -35,8 +37,9 @@ const SearchInput = () => {
 				},
 			};
 		} else if (!value.includes('tiktok.com') && !value.includes('@')) {
-			setError('please enter a correct username with @!');
+			setError('Please enter a correct username with @');
 			dispatch(setVideoLoading(false));
+			return;
 		} else {
 			// get user videos by username
 			options = {
@@ -59,14 +62,14 @@ const SearchInput = () => {
 				.request(options)
 				.then(function (response) {
 					if (response.data.msg === 'success') {
-						var videoArray = null;
-						var feedTitle = null;
+						let videoArray = null;
+						let feedTitle = null;
 						if (response.data.data.videos) {
 							videoArray = response.data.data.videos;
-							feedTitle = 'User Vidoes';
+							feedTitle = 'User Videos';
 						} else {
 							videoArray = [response.data.data];
-							feedTitle = 'Videso';
+							feedTitle = 'Video';
 						}
 
 						if (videoArray) {
@@ -76,17 +79,16 @@ const SearchInput = () => {
 									videos: videoArray,
 								})
 							);
-							setvideos(videos);
 							dispatch(setVideoLoading(false));
 						}
 					} else {
-						setError('username or video url is wrong.');
+						setError('Username or video URL is incorrect');
 						dispatch(setVideoLoading(false));
 					}
-					console.log(response.data);
 				})
-				.catch(function (error) {
-					console.error(error);
+				.catch(function (err) {
+					console.error(err);
+					setError('Something went wrong. Please try again.');
 					dispatch(setVideoLoading(false));
 				});
 		}
@@ -100,49 +102,131 @@ const SearchInput = () => {
 
 	// onclick search button
 	const onSearch = () => {
-		if (inputRef.current.value) {
+		setError(null);
+		if (inputRef.current?.value) {
 			dispatch(setVideoLoading(true));
-			const searchValue: any = inputRef.current.value;
+			const searchValue = inputRef.current.value.trim();
 			getUserPost(searchValue);
 		} else {
-			setError('search field is required.');
+			setError('Please enter a username or video URL');
+		}
+	};
+
+	// handle enter key
+	const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+		if (e.key === 'Enter') {
+			onSearch();
 		}
 	};
 
 	return (
 		<>
-			<div className="pt-32 pb-4">
+			<div className="py-12 md:py-16">
 				<div className="container">
-					<h2 className="text-lg font-bold text-center">
-						Enter Snapchat Username/URL
-					</h2>
-					<p className="text-center mb-4">
-						download tkik video without watermark wih username
-					</p>
-					<div className="flex flex-col sm:flex-row gap-4 sm:gap-2 items-center justify-center">
-						<input
-							ref={inputRef}
-							onClick={onClickInput}
-							className="max-w-sm w-full py-2 px-4 outline-0 rounded-md text-gray-700"
-							placeholder="Type username or past url"
-						/>
-						<button
-							onClick={onSearch}
-							className="inline-block rounded bg-yellow-300 px-6 py-2 uppercase text-gray-700 shadow-md transition duration-150 ease-in-out hover:bg-yellow-400 hover:shadow-lg focus:bg-yellow-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-yellow-600 active:shadow-lg cursor-pointer disabled:opacity-75 disabled:cursor-progress"
-							disabled={siteState.videoLoading}
-						>
-							{siteState.videoLoading ? 'loading...' : 'SEARCH'}
-						</button>
+					<div className="max-w-2xl mx-auto">
+						{/* Title */}
+						<div className="text-center mb-8">
+							<h2 className="text-2xl md:text-3xl font-bold mb-3">
+								Find TikTok Videos
+							</h2>
+							<p className="text-gray-400">
+								Enter a username (with @) or paste a video URL
+							</p>
+						</div>
+
+						{/* Search Input */}
+						<div className="relative">
+							<FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 w-5 h-5" />
+							<input
+								ref={inputRef}
+								onClick={onClickInput}
+								onKeyDown={onKeyDown}
+								className="w-full h-14 pl-12 pr-32 bg-dark-800/50 border border-dark-700 rounded-xl text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all"
+								placeholder="@username or tiktok.com/video/..."
+							/>
+							<button
+								onClick={onSearch}
+								disabled={siteState.videoLoading}
+								className="absolute right-2 top-1/2 -translate-y-1/2 px-5 py-2.5 bg-gradient-to-r from-violet-500 to-purple-600 text-white font-medium rounded-lg hover:from-violet-600 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 focus:ring-offset-black disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+							>
+								{siteState.videoLoading ? (
+									<span className="flex items-center gap-2">
+										<svg
+											className="animate-spin h-4 w-4"
+											xmlns="http://www.w3.org/2000/svg"
+											fill="none"
+											viewBox="0 0 24 24"
+										>
+											<circle
+												className="opacity-25"
+												cx="12"
+												cy="12"
+												r="10"
+												stroke="currentColor"
+												strokeWidth="4"
+											/>
+											<path
+												className="opacity-75"
+												fill="currentColor"
+												d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+											/>
+										</svg>
+										Loading
+									</span>
+								) : (
+									'Search'
+								)}
+							</button>
+						</div>
+
+						{/* Error Message */}
+						<AnimatePresence>
+							{error && (
+								<motion.div
+									initial={{ opacity: 0, y: -10 }}
+									animate={{ opacity: 1, y: 0 }}
+									exit={{ opacity: 0, y: -10 }}
+									transition={{ duration: 0.2 }}
+									className="mt-4 flex items-center gap-2 text-red-400"
+								>
+									<FiAlertCircle className="w-4 h-4 flex-shrink-0" />
+									<span className="text-sm">{error}</span>
+								</motion.div>
+							)}
+						</AnimatePresence>
+
+						{/* Helper Text */}
+						<div className="mt-6 flex flex-wrap items-center justify-center gap-4 text-sm text-gray-500">
+							<span>Try:</span>
+							<button
+								onClick={() => {
+									if (inputRef.current) {
+										inputRef.current.value = '@charlidamelio';
+										onClickInput();
+									}
+								}}
+								className="px-3 py-1.5 rounded-lg bg-dark-800 hover:bg-dark-700 transition-colors"
+							>
+								@charlidamelio
+							</button>
+							<button
+								onClick={() => {
+									if (inputRef.current) {
+										inputRef.current.value = '@khaby.lame';
+										onClickInput();
+									}
+								}}
+								className="px-3 py-1.5 rounded-lg bg-dark-800 hover:bg-dark-700 transition-colors"
+							>
+								@khaby.lame
+							</button>
+						</div>
 					</div>
-					<p
-						className={`text-red-500 mt-2 transition duration-150 ease-in-out ${
-							!error ? 'opacity-0' : 'opacity-1'
-						}`}
-					>
-						error: {error}
-					</p>
 				</div>
 			</div>
+
+			{/* Feed Component */}
+			<Feed />
 		</>
 	);
 };
