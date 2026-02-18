@@ -2,8 +2,8 @@
 
 import React, { useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiSearch, FiAlertCircle, FiDownload, FiHeart, FiMessageCircle, FiShare2 } from 'react-icons/fi';
-import { useDispatch, setPagination, setVideoLoading, setVidoes } from '../../redux';
+import { FiSearch, FiAlertCircle, FiDownload, FiHeart, FiMessageCircle, FiShare2, FiX } from 'react-icons/fi';
+import { useDispatch, setPagination, setVideoLoading, setVidoes, setHasSearched, setSearchTerm } from '../../redux';
 import { RootState, useSelector } from '../../redux';
 import axios from 'axios';
 import Image from 'next/image';
@@ -16,6 +16,7 @@ const Hero = () => {
 	// Search state
 	const [error, setError] = useState<string | null>(null);
 	const inputRef = useRef<HTMLInputElement>(null);
+	const searchTerm = siteState.searchTerm || '';
 
 	// Search functions
 	const getUserPost = (value: string) => {
@@ -59,23 +60,50 @@ const Hero = () => {
 				.request(options)
 				.then(function (response) {
 					if (response.data.msg === 'success') {
+						// Transform video data to match frontend expectations
+						const transformVideoData = (video: any) => ({
+							...video,
+							author: video.author ? {
+								...video.author,
+								id: Number(video.author.id) // Convert string to number
+							} : undefined,
+							stats: {
+								play_count: video.play_count,
+								digg_count: video.digg_count,
+								comment_count: video.comment_count,
+								share_count: video.share_count
+							}
+						});
+
+						// Filter out photo mode posts (images instead of video)
+						const isVideoPost = (video: any) =>
+							!video.images && video.duration > 0;
+
 						let videoArray = null;
 						let feedTitle = null;
 						if (response.data.data.videos) {
-							videoArray = response.data.data.videos;
+							videoArray = response.data.data.videos
+								.filter(isVideoPost)
+								.map(transformVideoData);
 							feedTitle = 'User Videos';
 						} else {
-							videoArray = [response.data.data];
+							const singleVideo = transformVideoData(response.data.data);
+							if (isVideoPost(response.data.data)) {
+								videoArray = [singleVideo];
+							}
 							feedTitle = 'Video';
 						}
 
-						if (videoArray) {
+						if (videoArray && videoArray.length > 0) {
 							dispatch(
 								setVidoes({
 									title: feedTitle,
 									videos: videoArray,
 								})
 							);
+							dispatch(setVideoLoading(false));
+						} else {
+							setError('No videos found. The user may only have photo posts.');
 							dispatch(setVideoLoading(false));
 						}
 					} else {
@@ -99,11 +127,23 @@ const Hero = () => {
 	const onSearch = () => {
 		setError(null);
 		if (inputRef.current?.value) {
-			dispatch(setVideoLoading(true));
 			const searchValue = inputRef.current.value.trim();
+			dispatch(setVideoLoading(true));
+			dispatch(setHasSearched(true));
+			dispatch(setSearchTerm(searchValue));
 			getUserPost(searchValue);
 		} else {
 			setError('Please enter a username or video URL');
+		}
+	};
+
+	const handleClearSearch = () => {
+		dispatch(setHasSearched(false));
+		dispatch(setVidoes({ title: null, videos: null }));
+		dispatch(setSearchTerm(null));
+		setError(null);
+		if (inputRef.current) {
+			inputRef.current.value = '';
 		}
 	};
 
@@ -114,6 +154,7 @@ const Hero = () => {
 	};
 
 	const onExampleClick = (username: string) => {
+		dispatch(setSearchTerm(username));
 		if (inputRef.current) {
 			inputRef.current.value = username;
 			onClickInput();
@@ -122,10 +163,73 @@ const Hero = () => {
 	};
 
 	return (
-		<section
-			ref={heroRef}
-			className="relative overflow-hidden py-32 md:py-48 min-h-[70vh]"
-		>
+		<>
+			{/* Compact Search Bar - shown when hasSearched is true */}
+			{siteState.hasSearched ? (
+				<section className="py-6 border-b border-dark-700">
+					<div className="container">
+						<div className="flex items-center gap-4 max-w-3xl mx-auto">
+							<div className="relative flex-1">
+								<div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none">
+									<FiSearch className="w-5 h-5" />
+								</div>
+								<input
+									ref={inputRef}
+									value={searchTerm}
+									onChange={(e) => dispatch(setSearchTerm(e.target.value))}
+									onClick={onClickInput}
+									onKeyDown={onKeyDown}
+									className="w-full h-12 pl-12 pr-4 bg-dark-800/50 border border-dark-700 rounded-xl text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
+									placeholder="@username or paste video URL..."
+								/>
+							</div>
+							<button
+								onClick={onSearch}
+								disabled={siteState.videoLoading}
+								className="px-6 h-12 bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white font-medium rounded-xl shadow-lg shadow-orange-500/25 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center gap-2 whitespace-nowrap"
+							>
+								{siteState.videoLoading ? (
+									<svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+										<circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+										<path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+									</svg>
+								) : (
+									<>
+										<FiSearch className="w-4 h-4" />
+										Search
+									</>
+								)}
+							</button>
+							<button
+								onClick={handleClearSearch}
+								className="px-4 h-12 bg-dark-800 hover:bg-dark-700 border border-dark-700 text-gray-300 hover:text-white rounded-xl transition-all flex items-center gap-2 whitespace-nowrap"
+							>
+								<FiX className="w-4 h-4" />
+								<span className="hidden sm:inline">Clear</span>
+							</button>
+						</div>
+						{/* Error message in compact mode */}
+						<AnimatePresence>
+							{error && (
+								<motion.div
+									initial={{ opacity: 0, y: -10 }}
+									animate={{ opacity: 1, y: 0 }}
+									exit={{ opacity: 0, y: -10 }}
+									transition={{ duration: 0.2 }}
+									className="mt-3 flex items-center gap-2 text-red-400 max-w-3xl mx-auto"
+								>
+									<FiAlertCircle className="w-4 h-4 flex-shrink-0" />
+									<span className="text-sm">{error}</span>
+								</motion.div>
+							)}
+						</AnimatePresence>
+					</div>
+				</section>
+			) : (
+				<section
+					ref={heroRef}
+					className="relative overflow-hidden pb-10 sm:pb-32 md:py-48 min-h-[70vh]"
+				>
 			{/* ========================================= */}
 			{/* MORPHING GRADIENT BLOBS (Background Layer) */}
 			{/* ========================================= */}
@@ -186,9 +290,9 @@ const Hero = () => {
 			<div className="container relative z-10">
 				<div className="max-w-6xl xl:max-w-7xl mx-auto">
 					{/* 2-Column Grid Layout */}
-					<div className="grid lg:grid-cols-3 gap-12 items-center">
+					<div className="grid lg:grid-cols-3 lg:gap-12 items-center">
 						{/* Left: Hero Content */}
-						<div className="lg:col-span-2 text-center lg:text-left">
+						<div className="lg:col-span-2 text-center lg:text-left order-2 lg:order-1">
 							{/* Headline - Fade in */}
 							<motion.h1
 								initial={{ opacity: 0, y: 20 }}
@@ -258,6 +362,8 @@ const Hero = () => {
 											{/* Input field */}
 											<input
 												ref={inputRef}
+												value={searchTerm}
+												onChange={(e) => dispatch(setSearchTerm(e.target.value))}
 												onClick={onClickInput}
 												onKeyDown={onKeyDown}
 												className="w-full h-12 pl-12 pr-4 bg-dark-800/50 border border-dark-700 rounded-xl text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
@@ -294,7 +400,7 @@ const Hero = () => {
 									className="mt-6 flex flex-wrap items-center justify-center lg:justify-start gap-3"
 								>
 									<span className="text-gray-500 text-sm">Try:</span>
-									{['@charlidamelio', '@khaby.lame', '@bellapoarch'].map((example, index) => (
+									{['@mahadidev', '@akujiff', '@heycarryme'].map((example, index) => (
 										<motion.button
 											key={example}
 											onClick={() => onExampleClick(example)}
@@ -312,16 +418,16 @@ const Hero = () => {
 							</motion.div>
 						</div>
 
-						{/* Right: Floating Preview Card (Desktop Only) */}
-						<div className="hidden lg:block relative">
+						{/* Right: Floating Preview Card */}
+						<div className="lg:col-span-1 mt-12 lg:mt-0 relative mx-auto lg:max-w-none w-full order-1 lg:order-2 mb-8 lg:mb-0">
 							<motion.div
-								initial={{ opacity: 0, x: 30 }}
-								animate={{ opacity: 1, x: 0 }}
+								initial={{ opacity: 0, y: 30, x: 0 }}
+								animate={{ opacity: 1, y: 0, x: 0 }}
 								transition={{ duration: 0.8, delay: 0.6 }}
 								className="float"
 							>
 								{/* Mock Video Card */}
-								<div className="relative aspect-[9/14] bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl overflow-hidden shadow-2xl">
+								<div className="relative aspect-[16/9] lg:aspect-[9/14] bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl overflow-hidden shadow-2xl">
 									{/* Background Image - Covers entire card */}
 									<div className="absolute inset-0">
 										<Image
@@ -329,7 +435,7 @@ const Hero = () => {
 											alt="Mahadi Hasan"
 											fill
 											className="object-cover"
-											sizes="(max-width: 768px) 0vw, 400px"
+											sizes="(max-width: 1023px) 100vw, 400px"
 										/>
 										{/* Gradient overlay - stronger at bottom for text readability */}
 										<div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/50 to-black/80" />
@@ -340,46 +446,46 @@ const Hero = () => {
 										{/* Top section with play button and stats */}
 										<div className="flex-1 flex items-center justify-center">
 											{/* Mock Play Button */}
-											<div className="relative z-10 w-20 h-20 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
-												<FiDownload className="w-8 h-8 text-white" />
+											<div className="relative z-10 w-16 h-16 lg:w-20 lg:h-20 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
+												<FiDownload className="w-6 h-6 lg:w-8 lg:h-8 text-white" />
 											</div>
 											{/* TikTok-style UI overlay */}
-											<div className="absolute right-4 bottom-20 flex flex-col gap-6 z-10">
+											<div className="absolute right-3 lg:right-4 bottom-16 lg:bottom-20 flex flex-col gap-4 lg:gap-6 z-10">
 												<div className="flex flex-col items-center gap-1">
-													<div className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center">
-														<FiHeart className="w-5 h-5 text-white" />
+													<div className="w-8 h-8 lg:w-10 lg:h-10 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center">
+														<FiHeart className="w-4 h-4 lg:w-5 lg:h-5 text-white" />
 													</div>
-													<span className="text-xs text-white/80">842K</span>
+													<span className="text-[10px] lg:text-xs text-white/80">842K</span>
 												</div>
 												<div className="flex flex-col items-center gap-1">
-													<div className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center">
-														<FiMessageCircle className="w-5 h-5 text-white" />
+													<div className="w-8 h-8 lg:w-10 lg:h-10 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center">
+														<FiMessageCircle className="w-4 h-4 lg:w-5 lg:h-5 text-white" />
 													</div>
-													<span className="text-xs text-white/80">12.4K</span>
+													<span className="text-[10px] lg:text-xs text-white/80">12.4K</span>
 												</div>
 												<div className="flex flex-col items-center gap-1">
-													<div className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center">
-														<FiShare2 className="w-5 h-5 text-white" />
+													<div className="w-8 h-8 lg:w-10 lg:h-10 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center">
+														<FiShare2 className="w-4 h-4 lg:w-5 lg:h-5 text-white" />
 													</div>
-													<span className="text-xs text-white/80">Share</span>
+													<span className="text-[10px] lg:text-xs text-white/80">Share</span>
 												</div>
 											</div>
 										</div>
 
 										{/* Video Info overlay at bottom */}
-										<div className="p-4">
+										<div className="p-3 lg:p-4">
 											<div className="flex items-center justify-between">
-												<div className="flex items-center gap-3">
-													<div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-500 to-pink-500" />
+												<div className="flex items-center gap-2 lg:gap-3">
+													<div className="w-8 h-8 lg:w-10 lg:h-10 rounded-full bg-gradient-to-br from-orange-500 to-pink-500" />
 													<div>
-														<p className="text-sm font-semibold text-white">@mahadidev</p>
-														<p className="text-xs text-gray-300">Original Sound</p>
+														<p className="text-xs lg:text-sm font-semibold text-white">@mahadidev</p>
+														<p className="text-[10px] lg:text-xs text-gray-300">Original Sound</p>
 													</div>
 												</div>
 												{/* Download Badge */}
-												<div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-500/20 border border-green-500/30">
-													<FiDownload className="w-4 h-4 text-green-400" />
-													<span className="text-sm font-medium text-green-400">Ready</span>
+												<div className="flex items-center gap-1.5 lg:gap-2 px-2 lg:px-3 py-1 lg:py-1.5 rounded-full bg-green-500/20 border border-green-500/30">
+													<FiDownload className="w-3 h-3 lg:w-4 lg:h-4 text-green-400" />
+													<span className="text-xs lg:text-sm font-medium text-green-400">Ready</span>
 												</div>
 											</div>
 										</div>
@@ -393,7 +499,9 @@ const Hero = () => {
 					</div>
 				</div>
 			</div>
-		</section>
+				</section>
+			)}
+		</>
 	);
 };
 

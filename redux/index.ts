@@ -5,5 +5,7 @@ export {
 	setPagination,
 	setVideoLoading,
 	setVidoes,
+	setHasSearched,
+	setSearchTerm,
 } from './slice/siteSlice';
 export { store, type AppDispatch, type RootState } from './store';

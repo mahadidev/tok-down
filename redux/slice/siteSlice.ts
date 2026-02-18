@@ -9,6 +9,8 @@ export interface siteState {
 	videoLoading?: boolean;
 	currentPage: number;
 	perPage: number;
+	hasSearched: boolean;
+	searchTerm: string | null;
 }
 
 const initialState: siteState = {
@@ -19,6 +21,8 @@ const initialState: siteState = {
 	videoLoading: false,
 	currentPage: 0,
 	perPage: 12,
+	hasSearched: false,
+	searchTerm: null,
 };
 
 export const themeSlice = createSlice({
@@ -35,7 +39,7 @@ export const themeSlice = createSlice({
 			state.videoLoading = action.payload;
 		},
 		setVidoes: (state, action: PayloadAction<any>) => {
-			state.feedTitle = action.payload;
+			state.feedTitle = action.payload.title;
 			state.videos = action.payload.videos;
 		},
 		setPagination: (state, action: PayloadAction<any>) => {
@@ -46,6 +50,12 @@ export const themeSlice = createSlice({
 				? action.payload.perPage
 				: state.perPage;
 		},
+		setHasSearched: (state, action: PayloadAction<boolean>) => {
+			state.hasSearched = action.payload;
+		},
+		setSearchTerm: (state, action: PayloadAction<string | null>) => {
+			state.searchTerm = action.payload;
+		},
 	},
 });
 
@@ -55,6 +65,8 @@ export const {
 	setVidoes,
 	setVideoLoading,
 	setPagination,
+	setHasSearched,
+	setSearchTerm,
 } = themeSlice.actions;
 
 export default themeSlice.reducer;
