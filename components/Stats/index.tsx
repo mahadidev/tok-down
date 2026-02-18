@@ -1,142 +1,99 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
-import { motion, useInView } from 'framer-motion';
-import { FiTrendingUp, FiUsers, FiDownload, FiStar } from 'react-icons/fi';
+import React, { useEffect, useState, useRef } from 'react';
+import { motion } from 'framer-motion';
+import { useInView } from 'framer-motion';
 
-interface StatItem {
-	icon: React.ReactNode;
-	value: number;
-	suffix: string;
-	label: string;
-	gradient: string;
-}
-
-const StatCard = ({ item }: { item: StatItem }) => {
+// Counting animation component
+const CountUp = ({ end, duration = 2, suffix = '', prefix = '' }: { end: number; duration?: number; suffix?: string; prefix?: string }) => {
 	const [count, setCount] = useState(0);
-	const ref = useRef<HTMLDivElement>(null);
-	const isInView = useInView(ref, { once: true, margin: '-10%' });
+	const ref = useRef<HTMLSpanElement>(null);
+	const isInView = useInView(ref, { once: true });
 
 	useEffect(() => {
 		if (isInView) {
-			const duration = 2000; // 2 seconds
-			const steps = 60;
-			const increment = item.value / steps;
-			const stepDuration = duration / steps;
+			let startTime: number;
+			let animationFrame: number;
 
-			let current = 0;
-			const timer = setInterval(() => {
-				current += increment;
-				if (current >= item.value) {
-					setCount(item.value);
-					clearInterval(timer);
-				} else {
-					setCount(Math.floor(current));
+			const animate = (currentTime: number) => {
+				if (!startTime) startTime = currentTime;
+				const progress = Math.min((currentTime - startTime) / (duration * 1000), 1);
+
+				// Easing function for smooth animation
+				const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+				setCount(Math.floor(easeOutQuart * end));
+
+				if (progress < 1) {
+					animationFrame = requestAnimationFrame(animate);
 				}
-			}, stepDuration);
+			};
 
-			return () => clearInterval(timer);
+			animationFrame = requestAnimationFrame(animate);
+
+			return () => cancelAnimationFrame(animationFrame);
 		}
-	}, [isInView, item.value]);
+	}, [isInView, end, duration]);
 
-	return (
-		<motion.div
-			ref={ref}
-			initial={{ opacity: 0, scale: 0.9 }}
-			whileInView={{ opacity: 1, scale: 1 }}
-			viewport={{ once: true }}
-			transition={{ duration: 0.5 }}
-			className="relative p-8 rounded-2xl bg-dark-800 border border-dark-700 overflow-hidden"
-		>
-			{/* Background Gradient */}
-			<div
-				className={`absolute inset-0 bg-gradient-to-br ${item.gradient} opacity-10`}
-			/>
-
-			{/* Content */}
-			<div className="relative">
-				<div
-					className={`w-12 h-12 rounded-xl bg-gradient-to-br ${item.gradient} flex items-center justify-center text-white mb-4`}
-				>
-					{item.icon}
-				</div>
-				<div className="flex items-baseline gap-1 mb-2">
-					<span className="text-3xl md:text-4xl font-bold">
-						{count.toLocaleString()}
-					</span>
-					<span className="text-xl text-gray-400">{item.suffix}</span>
-				</div>
-				<p className="text-gray-400">{item.label}</p>
-			</div>
-		</motion.div>
-	);
+	return <span ref={ref}>{prefix}{count.toLocaleString()}{suffix}</span>;
 };
 
 const Stats = () => {
-	const stats: StatItem[] = [
-		{
-			icon: <FiDownload className="w-6 h-6" />,
-			value: 5000000,
-			suffix: '+',
-			label: 'Videos Downloaded',
-			gradient: 'from-orange-500 to-amber-600',
-		},
-		{
-			icon: <FiUsers className="w-6 h-6" />,
-			value: 250000,
-			suffix: '+',
-			label: 'Active Users',
-			gradient: 'from-blue-500 to-cyan-500',
-		},
-		{
-			icon: <FiStar className="w-6 h-6" />,
-			value: 4.8,
-			suffix: '/5',
-			label: 'User Rating',
-			gradient: 'from-amber-500 to-orange-500',
-		},
-		{
-			icon: <FiTrendingUp className="w-6 h-6" />,
-			value: 99,
-			suffix: '%',
-			label: 'Success Rate',
-			gradient: 'from-emerald-500 to-teal-500',
-		},
+	const stats = [
+		{ value: 5, suffix: 'M+', label: 'Videos Downloaded' },
+		{ value: 250, suffix: 'K+', label: 'Active Users' },
+		{ value: 99, suffix: '%', label: 'Success Rate' },
+		{ value: 4.8, suffix: '/5', label: 'User Rating' },
 	];
-
 	return (
-		<section className="py-24 relative overflow-hidden">
+		<section className="py-24 md:py-32 relative overflow-hidden">
 			{/* Background Gradient */}
 			<div className="absolute inset-0 bg-gradient-to-b from-orange-500/5 to-transparent" />
 
-			<div className="container relative">
+			<div className="container relative max-w-6xl">
 				{/* Section Header */}
-				<div className="text-center max-w-2xl mx-auto mb-16">
-					<motion.div
-						initial={{ opacity: 0, y: 20 }}
-						whileInView={{ opacity: 1, y: 0 }}
-						viewport={{ once: true }}
-						transition={{ duration: 0.5 }}
-					>
-						<span className="inline-block px-4 py-1.5 rounded-full bg-orange-500/10 text-orange-400 text-sm font-medium mb-4">
-							Stats
-						</span>
-						<h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
-							Trusted by Millions
-						</h2>
-						<p className="text-gray-400 text-lg">
-							Join thousands of users who rely on Tok Down for their
-							TikTok video downloads
-						</p>
-					</motion.div>
-				</div>
+				<motion.div
+					initial={{ opacity: 0, y: 20 }}
+					whileInView={{ opacity: 1, y: 0 }}
+					viewport={{ once: true }}
+					transition={{ duration: 0.5 }}
+					className="text-center mb-16"
+				>
+					<h2 className="text-4xl md:text-5xl font-bold mb-6">
+						Trusted by millions worldwide
+					</h2>
+					<p className="text-xl text-gray-400">
+						Join millions who trust Tok Down for their TikTok downloads
+					</p>
+				</motion.div>
 
 				{/* Stats Grid */}
-				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+				<div className="grid grid-cols-2 md:grid-cols-4 gap-6">
 					{stats.map((stat, index) => (
-						<StatCard key={index} item={stat} />
+						<motion.div
+							key={index}
+							initial={{ opacity: 0, scale: 0.9 }}
+							whileInView={{ opacity: 1, scale: 1 }}
+							viewport={{ once: true }}
+							transition={{ duration: 0.5, delay: index * 0.1 }}
+							whileHover={{ scale: 1.05 }}
+							className="relative p-6 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 text-center"
+						>
+							{/* Glow effect */}
+							<div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-orange-500/10 to-transparent opacity-0 hover:opacity-100 transition-opacity pointer-events-none" />
+
+							{/* Stat Value */}
+							<div className="text-4xl md:text-5xl font-bold text-orange-400 mb-2">
+								<CountUp end={stat.value} suffix={stat.suffix} duration={2} />
+							</div>
+
+							{/* Stat Label */}
+							<p className="text-gray-400 text-sm md:text-base">{stat.label}</p>
+						</motion.div>
 					))}
 				</div>
+
+				{/* Subtle Divider */}
+				<div className="mt-20 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 			</div>
 		</section>
 	);

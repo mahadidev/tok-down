@@ -2,116 +2,93 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import {
-	FiDownload,
-	FiShield,
-	FiZap,
-	FiHardDrive,
-	FiRepeat,
-	FiLock,
-} from 'react-icons/fi';
-import StaggerChildren from '../animations/StaggerChildren';
+import { FiVideo, FiMonitor, FiZap, FiRefreshCw, FiShield, FiCheckCircle } from 'react-icons/fi';
 
 const Features = () => {
 	const features = [
 		{
-			icon: <FiDownload className="w-6 h-6" />,
 			title: 'No Watermark',
-			description:
-				'Download TikTok videos without the annoying watermark overlay',
-		 gradient: 'from-orange-500 to-amber-600',
+			description: 'Download videos exactly as original creators intended',
+			icon: FiVideo,
 		},
 		{
-			icon: <FiHardDrive className="w-6 h-6" />,
 			title: 'HD Quality',
-			description:
-				'Get videos in the highest available quality up to 1080p',
-			gradient: 'from-blue-500 to-cyan-500',
+			description: 'Maximum resolution available for crystal clear viewing',
+			icon: FiMonitor,
 		},
 		{
-			icon: <FiZap className="w-6 h-6" />,
 			title: 'Lightning Fast',
-			description: 'Download videos in seconds with our optimized servers',
-			gradient: 'from-amber-500 to-orange-500',
+			description: 'Download in seconds, not minutes',
+			icon: FiZap,
 		},
 		{
-			icon: <FiRepeat className="w-6 h-6" />,
-			title: 'Unlimited Downloads',
-			description: 'No limits on the number of videos you can download',
-			gradient: 'from-emerald-500 to-teal-500',
+			title: 'Unlimited',
+			description: 'No download limits, ever. Download as much as you want',
+			icon: FiRefreshCw,
 		},
 		{
-			icon: <FiLock className="w-6 h-6" />,
 			title: 'Secure & Private',
-			description:
-				'Your data is safe with us. We don\'t store any personal information',
-			gradient: 'from-rose-500 to-pink-500',
+			description: "We don't store your data or track your downloads",
+			icon: FiShield,
 		},
 		{
-			icon: <FiShield className="w-6 h-6" />,
 			title: 'Virus Free',
-			description:
-				'All downloads are scanned and verified to be safe',
-			gradient: 'from-yellow-500 to-orange-500',
+			description: 'All downloads are verified safe and secure',
+			icon: FiCheckCircle,
 		},
 	];
 
 	return (
-		<section id="features" className="py-24 relative">
-			<div className="container">
+		<section id="features" className="py-24 md:py-32 relative">
+			<div className="container max-w-6xl xl:max-w-7xl">
 				{/* Section Header */}
-				<div className="text-center max-w-2xl mx-auto mb-16">
-					<motion.div
-						initial={{ opacity: 0, y: 20 }}
-						whileInView={{ opacity: 1, y: 0 }}
-						viewport={{ once: true }}
-						transition={{ duration: 0.5 }}
-					>
-						<span className="inline-block px-4 py-1.5 rounded-full bg-orange-500/10 text-orange-400 text-sm font-medium mb-4">
-							Features
-						</span>
-						<h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
-							Why Choose Tok Down?
-						</h2>
-						<p className="text-gray-400 text-lg">
-							The most reliable TikTok video downloader with
-							powerful features
-						</p>
-					</motion.div>
-				</div>
+				<motion.div
+					initial={{ opacity: 0, y: 20 }}
+					whileInView={{ opacity: 1, y: 0 }}
+					viewport={{ once: true }}
+					transition={{ duration: 0.5 }}
+					className="text-center mb-16"
+				>
+					<h2 className="text-4xl md:text-5xl font-bold mb-6">
+						Why Tok Down?
+					</h2>
+					<p className="text-xl text-gray-400 leading-relaxed max-w-2xl mx-auto">
+						Crystal clear downloads. No watermarks.
+						No hidden fees. Just your videos.
+					</p>
+				</motion.div>
 
 				{/* Features Grid */}
-				<StaggerChildren
-					className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-					staggerDelay={0.1}
-					childDelay={0.2}
-				>
-					{features.map((feature, index) => (
-						<motion.div
-							key={index}
-							className="group relative p-6 rounded-2xl bg-dark-800 border border-dark-700 hover:border-orange-500/30 transition-all duration-300"
-							whileHover={{ y: -4 }}
-						>
-							{/* Icon */}
-							<div
-								className={`w-14 h-14 rounded-xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center text-white mb-4 group-hover:scale-110 transition-transform duration-300`}
+				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+					{features.map((feature, index) => {
+						const Icon = feature.icon;
+						return (
+							<motion.div
+								key={index}
+								initial={{ opacity: 0, y: 30 }}
+								whileInView={{ opacity: 1, y: 0 }}
+								viewport={{ once: true }}
+								transition={{ duration: 0.5, delay: index * 0.1 }}
+								whileHover={{ y: -8 }}
+								className="group relative p-6 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-orange-500/30 transition-all duration-300"
 							>
-								{feature.icon}
-							</div>
+								{/* Icon with glow */}
+								<div className="w-14 h-14 rounded-xl bg-gradient-to-br from-orange-500/20 to-amber-500/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+									<Icon className="w-7 h-7 text-orange-400" />
+								</div>
 
-							{/* Content */}
-							<h3 className="text-xl font-semibold mb-2 group-hover:text-orange-400 transition-colors">
-								{feature.title}
-							</h3>
-							<p className="text-gray-400 text-sm leading-relaxed">
-								{feature.description}
-							</p>
+								<h3 className="text-xl font-semibold mb-2 text-white">{feature.title}</h3>
+								<p className="text-gray-400 leading-relaxed">{feature.description}</p>
 
-							{/* Glow Effect */}
-							<div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-orange-500/0 to-orange-500/0 group-hover:from-orange-500/5 group-hover:to-orange-500/0 transition-all duration-300 -z-10" />
-						</motion.div>
-					))}
-				</StaggerChildren>
+								{/* Hover gradient overlay */}
+								<div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-orange-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+							</motion.div>
+						);
+					})}
+				</div>
+
+				{/* Subtle Divider */}
+				<div className="mt-20 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 			</div>
 		</section>
 	);

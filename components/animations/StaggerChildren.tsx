@@ -1,8 +1,8 @@
 import React from 'react';
-import { motion, HTMLMotionProps, Variants } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 import { cn } from '../../lib/utils';
 
-export interface StaggerChildrenProps extends HTMLMotionProps<'div'> {
+export interface StaggerChildrenProps extends React.HTMLAttributes<HTMLDivElement> {
 	staggerDelay?: number;
 	childDelay?: number;
 	variants?: Variants;
@@ -48,9 +48,9 @@ const StaggerChildren = React.forwardRef<HTMLDivElement, StaggerChildrenProps>(
 
 		// Modify container variants with custom delays
 		const customContainerVariants: Variants = {
-			hidden: containerVariants.hidden,
+			hidden: (containerVariants as any)?.hidden || { opacity: 0 },
 			visible: {
-				...containerVariants.visible,
+				...(containerVariants as any)?.visible || {},
 				transition: {
 					staggerChildren: staggerDelay,
 					delayChildren: childDelay,
@@ -68,10 +68,10 @@ const StaggerChildren = React.forwardRef<HTMLDivElement, StaggerChildrenProps>(
 				className={cn(className)}
 				{...props}
 			>
-				{React.Children.map(children, (child) => {
+				{React.Children.toArray(children).map((child, index) => {
 					if (React.isValidElement(child)) {
 						return (
-							<motion.div variants={itemVariants}>
+							<motion.div key={index} variants={itemVariants}>
 								{child}
 							</motion.div>
 						);

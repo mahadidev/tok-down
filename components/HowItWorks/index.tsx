@@ -2,103 +2,91 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FiCopy, FiSearch, FiDownload } from 'react-icons/fi';
-import StaggerChildren from '../animations/StaggerChildren';
+import { FiDownload, FiCopy, FiSearch, FiArrowRight } from 'react-icons/fi';
 
 const HowItWorks = () => {
 	const steps = [
 		{
-			number: '01',
-			icon: <FiCopy className="w-6 h-6" />,
 			title: 'Copy Video URL',
-			description:
-				'Open TikTok and copy the link to the video you want to download, or find the username',
-			color: 'orange',
+			description: 'Copy the video URL from TikTok app or website',
+			icon: FiCopy,
 		},
 		{
-			number: '02',
-			icon: <FiSearch className="w-6 h-6" />,
 			title: 'Paste & Search',
-			description:
-				'Paste the URL or enter the username in the search box above and click Search',
-			color: 'amber',
+			description: 'Paste the URL above and hit Search button',
+			icon: FiSearch,
 		},
 		{
-			number: '03',
-			icon: <FiDownload className="w-6 h-6" />,
 			title: 'Download Video',
-			description:
-				'Click the download button on any video to save it without watermark',
-			color: 'yellow',
+			description: 'Click download to save your video without watermark',
+			icon: FiDownload,
 		},
 	];
 
 	return (
-		<section id="how-it-works" className="py-24 relative">
-			<div className="container">
+		<section id="how-it-works" className="py-24 md:py-32 relative">
+			<div className="container max-w-6xl">
 				{/* Section Header */}
-				<div className="text-center max-w-2xl mx-auto mb-16">
-					<motion.div
-						initial={{ opacity: 0, y: 20 }}
-						whileInView={{ opacity: 1, y: 0 }}
-						viewport={{ once: true }}
-						transition={{ duration: 0.5 }}
-					>
-						<span className="inline-block px-4 py-1.5 rounded-full bg-orange-500/10 text-orange-400 text-sm font-medium mb-4">
-							How It Works
-						</span>
-						<h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
-							3 Simple Steps
-						</h2>
-						<p className="text-gray-400 text-lg">
-							Download your favorite TikTok videos in seconds
-						</p>
-					</motion.div>
-				</div>
-
-				{/* Steps */}
-				<StaggerChildren
-					className="grid grid-cols-1 md:grid-cols-3 gap-8"
-					staggerDelay={0.15}
-					childDelay={0.2}
+				<motion.div
+					initial={{ opacity: 0, y: 20 }}
+					whileInView={{ opacity: 1, y: 0 }}
+					viewport={{ once: true }}
+					transition={{ duration: 0.5 }}
+					className="text-center mb-16"
 				>
-					{steps.map((step, index) => (
-						<motion.div
-							key={index}
-							className="relative"
-							whileHover={{ y: -8 }}
-							transition={{ duration: 0.3 }}
-						>
-							{/* Connector Line (Desktop) */}
-							{index < steps.length - 1 && (
-								<div className="hidden md:block absolute top-16 left-[60%] w-[80%] h-0.5 bg-gradient-to-r from-orange-500 to-transparent opacity-30" />
-							)}
+					<h2 className="text-4xl md:text-5xl font-bold mb-6">
+						How it works
+					</h2>
+					<p className="text-xl text-gray-400">
+						Download your favorite TikTok videos in 3 simple steps
+					</p>
+				</motion.div>
 
-							{/* Step Card */}
-							<div className="relative p-8 rounded-2xl bg-dark-800 border border-dark-700 hover:border-orange-500/30 transition-all duration-300 h-full">
-								{/* Step Number */}
-								<div className="absolute -top-4 -left-4 w-12 h-12 rounded-xl bg-dark-900 border-2 border-orange-500 flex items-center justify-center text-orange-400 font-bold">
-									{step.number}
-								</div>
+				{/* Steps Grid with Connector */}
+				<div className="relative mb-16">
+					{/* Connector Line (desktop) */}
+					<div className="hidden md:block absolute top-12 left-16 right-16 h-0.5 bg-gradient-to-r from-orange-500/50 via-orange-500 to-orange-500/50 z-0" />
 
-								{/* Icon */}
-								<div
-									className={`w-14 h-14 rounded-xl bg-gradient-to-br from-${step.color}-500 to-${step.color}-600 flex items-center justify-center text-white mb-6`}
+					<div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative z-10">
+						{steps.map((step, index) => {
+							const Icon = step.icon;
+							return (
+								<motion.div
+									key={index}
+									initial={{ opacity: 0, y: 30 }}
+									whileInView={{ opacity: 1, y: 0 }}
+									viewport={{ once: true }}
+									transition={{ duration: 0.5, delay: index * 0.15 }}
+									whileHover={{ y: -4 }}
+									className="relative p-6 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-orange-500/30 transition-all"
 								>
-									{step.icon}
-								</div>
+									{/* Number Badge */}
+									<div className="absolute -top-4 left-6 w-8 h-8 rounded-full bg-gradient-to-br from-orange-500 to-amber-600 flex items-center justify-center text-white font-bold text-sm shadow-lg shadow-orange-500/30">
+										{index + 1}
+									</div>
 
-								{/* Content */}
-								<h3 className="text-xl font-semibold mb-3">
-									{step.title}
-								</h3>
-								<p className="text-gray-400 leading-relaxed">
-									{step.description}
-								</p>
-							</div>
-						</motion.div>
-					))}
-				</StaggerChildren>
+									{/* Icon */}
+									<div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500/20 to-amber-500/20 flex items-center justify-center mb-4 mt-2">
+										<Icon className="w-6 h-6 text-orange-400" />
+									</div>
+
+									<h3 className="text-lg font-semibold mb-2 text-white">{step.title}</h3>
+									<p className="text-gray-400 text-sm leading-relaxed">{step.description}</p>
+
+									{/* Hover gradient overlay */}
+									<div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-orange-500/5 to-transparent opacity-0 hover:opacity-100 transition-opacity pointer-events-none" />
+
+									{/* Arrow connector (mobile only) */}
+									{index < steps.length - 1 && (
+										<div className="md:hidden absolute -right-4 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-orange-500/20 flex items-center justify-center">
+											<FiArrowRight className="w-4 h-4 text-orange-400" />
+										</div>
+									)}
+								</motion.div>
+							);
+						})}
+					</div>
+				</div>
 
 				{/* CTA */}
 				<motion.div
@@ -106,16 +94,19 @@ const HowItWorks = () => {
 					whileInView={{ opacity: 1, y: 0 }}
 					viewport={{ once: true }}
 					transition={{ duration: 0.5, delay: 0.5 }}
-					className="text-center mt-16"
+					className="text-center"
 				>
 					<a
 						href="#search"
-						className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-orange-500 to-amber-600 text-white font-semibold rounded-xl hover:from-orange-600 hover:to-amber-700 transition-all shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40"
+						className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-orange-500 to-amber-600 text-white font-semibold rounded-xl hover:from-orange-600 hover:to-amber-700 transition-all shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40"
 					>
-						Try It Now
+						Start Downloading
 						<FiDownload className="w-5 h-5" />
 					</a>
 				</motion.div>
+
+				{/* Subtle Divider */}
+				<div className="mt-20 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 			</div>
 		</section>
 	);

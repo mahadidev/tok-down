@@ -91,4 +91,31 @@
 	.text-balance {
 		text-wrap: balance;
 	}
+
+	/* Floating Animation */
+	@keyframes float {
+		0%, 100% { transform: translateY(0px); }
+		50% { transform: translateY(-20px); }
+	}
+	.float { animation: float 6s ease-in-out infinite; }
+
+	/* Grid Pattern */
+	.grid-pattern {
+		background-image:
+			linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+			linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+		background-size: 50px 50px;
+	}
+
+	/* Glass Card */
+	.glass-card {
+		background: rgba(255, 255, 255, 0.05);
+		backdrop-filter: blur(20px);
+		border: 1px solid rgba(255, 255, 255, 0.1);
+	}
+
+	/* Float Delay Variants */
+	.float-delay-1 { animation-delay: 0s; }
+	.float-delay-2 { animation-delay: 1s; }
+	.float-delay-3 { animation-delay: 2s; }
 }

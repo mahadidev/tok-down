@@ -66,7 +66,6 @@ const Video = ({
 					playsInline
 					poster={videoData.origin_cover || videoData.cover}
 					src={videoData.play}
-					className="w-full h-full"
 				/>
 
 				{/* Stats Overlay (on hover) */}
