@@ -4,6 +4,7 @@ import {
 	Navigation,
 	SearchInput,
 	Hero,
+	Sponsors,
 	Features,
 	Stats,
 	HowItWorks,
@@ -23,6 +24,9 @@ const HomePage = () => {
 				{/* Hide marketing sections when user has searched */}
 				{!hasSearched && (
 					<>
+						{/* Sponsors Section */}
+						<Sponsors />
+
 						{/* Features Section */}
 						<Features />
 
