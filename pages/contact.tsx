@@ -159,11 +159,11 @@ export default function ContactPage() {
 						<div className="mt-12 p-6 bg-white/5 border border-white/10 rounded-2xl">
 							<h3 className="font-semibold mb-4">Prefer email?</h3>
 							<a
-								href="mailto:hello@tokdown.com"
+								href="mailto:mahadi.dev.pm@gmail.com"
 								className="flex items-center gap-3 text-gray-400 hover:text-orange-400 transition-colors"
 							>
 								<FiMail className="w-5 h-5" />
-								<span>hello@tokdown.com</span>
+								<span>mahadi.dev.pm@gmail.com</span>
 							</a>
 						</div>
 					</div>

@@ -22,14 +22,14 @@ const Footer = () => {
 	}, [dispatch]);
 
 	const productLinks = [
-		{ name: 'Features', href: '#features' },
-		{ name: 'How It Works', href: '#how-it-works' },
-		{ name: 'Pricing', href: '#' },
+		{ name: 'Features', href: '/#features' },
+		{ name: 'How It Works', href: '/#how-it-works' },
+		{ name: 'Pricing', href: '#pricing' },
 	];
 
 	const companyLinks = [
 		{ name: 'About', href: '/about' },
-		{ name: 'Blog', href: '/blog' },
+		{ name: 'Sponsors', href: '/sponsors' },
 		{ name: 'Contact', href: '/contact' },
 	];
 
@@ -43,7 +43,7 @@ const Footer = () => {
 		{ name: 'Twitter', icon: <FiTwitter className="w-5 h-5" />, href: '#' },
 		{ name: 'Instagram', icon: <FiInstagram className="w-5 h-5" />, href: '#' },
 		{ name: 'GitHub', icon: <FiGithub className="w-5 h-5" />, href: '#' },
-		{ name: 'Email', icon: <FiMail className="w-5 h-5" />, href: 'mailto:hello@tokdown.com' },
+		{ name: 'Email', icon: <FiMail className="w-5 h-5" />, href: 'mailto:mahadi.dev.pm@gmail.com' },
 	];
 
 	return (

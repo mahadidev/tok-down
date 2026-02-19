@@ -2,7 +2,8 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FiDownload, FiCopy, FiSearch, FiArrowRight } from 'react-icons/fi';
+import Link from 'next/link';
+import { FiDownload, FiCopy, FiSearch, FiArrowRight, FiMail } from 'react-icons/fi';
 
 const HowItWorks = () => {
 	const steps = [
@@ -96,13 +97,13 @@ const HowItWorks = () => {
 					transition={{ duration: 0.5, delay: 0.5 }}
 					className="text-center"
 				>
-					<a
-						href="#search"
+					<Link
+						href="/contact"
 						className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-orange-500 to-amber-600 text-white font-semibold rounded-xl hover:from-orange-600 hover:to-amber-700 transition-all shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40"
 					>
-						Start Downloading
-						<FiDownload className="w-5 h-5" />
-					</a>
+						Contact Us
+						<FiMail className="w-5 h-5" />
+					</Link>
 				</motion.div>
 
 				{/* Subtle Divider */}

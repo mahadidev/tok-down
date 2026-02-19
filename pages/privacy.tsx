@@ -162,7 +162,7 @@ export default function PrivacyPolicyPage() {
 									Policy or our data practices, please contact us at:
 								</p>
 								<p className="text-gray-300 leading-relaxed mt-3">
-									<strong>Email:</strong> hello@tokdown.com
+									<strong>Email:</strong> mahadi.dev.pm@gmail.com
 								</p>
 							</section>
 						</div>

@@ -4,12 +4,13 @@ import Link from 'next/link';
 import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { setNavHeight, useDispatch } from '../../redux';
-import { FiMenu, FiX } from 'react-icons/fi';
+import { FiMenu, FiX, FiGithub } from 'react-icons/fi';
 
 const navLinks = [
+	{ name: 'About', href: '/about' },
 	{ name: 'Blog', href: '/blog' },
-	{ name: 'Features', href: '#features' },
-	{ name: 'How It Works', href: '#how-it-works' },
+	{ name: 'Features', href: '/#features' },
+	{ name: 'How It Works', href: '/#how-it-works' },
 ];
 
 const Navigation = () => {
@@ -55,12 +56,15 @@ const Navigation = () => {
 								{link.name}
 							</Link>
 						))}
-						<Link
-							href="#"
-							className="px-5 py-2.5 text-sm font-medium bg-gradient-to-r from-orange-500 to-amber-600 text-white rounded-xl hover:from-orange-600 hover:to-amber-700 transition-all shadow-lg shadow-orange-500/25"
+						<a
+							href="https://github.com/mahadidev/tok-down"
+							target="_blank"
+							rel="noopener noreferrer"
+							className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium bg-[#24292e] hover:bg-[#30363d] text-white rounded-xl border border-white/10 transition-all"
 						>
-							Get Started
-						</Link>
+							<FiGithub className="w-4 h-4" />
+							Star on GitHub
+						</a>
 					</div>
 
 					{/* Mobile Menu Button */}
@@ -94,13 +98,16 @@ const Navigation = () => {
 										{link.name}
 									</Link>
 								))}
-								<Link
-									href="#"
-									className="px-5 py-2.5 text-base font-medium bg-gradient-to-r from-orange-500 to-amber-600 text-white rounded-xl text-center"
+								<a
+									href="https://github.com/mahadidev/tok-down"
+									target="_blank"
+									rel="noopener noreferrer"
+									className="inline-flex items-center justify-center gap-2 px-5 py-2.5 text-base font-medium bg-[#24292e] hover:bg-[#30363d] text-white rounded-xl border border-white/10 transition-all"
 									onClick={() => setIsMobileMenuOpen(false)}
 								>
-									Get Started
-								</Link>
+									<FiGithub className="w-4 h-4" />
+									Star on GitHub
+								</a>
 							</div>
 						</motion.div>
 					)}
