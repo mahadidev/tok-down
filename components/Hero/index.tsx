@@ -298,7 +298,7 @@ const Hero = () => {
 								initial={{ opacity: 0, y: 20 }}
 								animate={{ opacity: 1, y: 0 }}
 								transition={{ duration: 0.8, delay: 0.2 }}
-								className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6"
+								className="hidden lg:block text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6"
 							>
 								Download TikTok Videos{' '}
 								<motion.span
@@ -419,7 +419,25 @@ const Hero = () => {
 						</div>
 
 						{/* Right: Floating Preview Card */}
-						<div className="lg:col-span-1 mt-12 lg:mt-0 relative mx-auto lg:max-w-none w-full order-1 lg:order-2 mb-8 lg:mb-0">
+						<div className="lg:col-span-1 mt-8 lg:mt-0 relative mx-auto lg:max-w-none w-full order-1 lg:order-2 mb-8 lg:mb-0">
+							{/* Headline - Fade in */}
+							<motion.h1
+								initial={{ opacity: 0, y: 20 }}
+								animate={{ opacity: 1, y: 0 }}
+								transition={{ duration: 0.8, delay: 0.2 }}
+								className="lg:hidden text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-8"
+							>
+								Download TikTok Videos{' '}
+								<motion.span
+									className="bg-gradient-to-r from-orange-400 to-amber-500 bg-clip-text text-transparent"
+									animate={{
+										backgroundPosition: ['0%', '100%', '0%']
+									}}
+									transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+								>
+									Without Watermark
+								</motion.span>
+							</motion.h1>
 							<motion.div
 								initial={{ opacity: 0, y: 30, x: 0 }}
 								animate={{ opacity: 1, y: 0, x: 0 }}

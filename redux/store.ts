@@ -1,9 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import siteReducer from './slice/siteSlice';
+import blogReducer from './slice/blogSlice';
+import analyticsReducer from './slice/analyticsSlice';
 
 export const store = configureStore({
 	reducer: {
 		site: siteReducer,
+		blog: blogReducer,
+		analytics: analyticsReducer,
 	},
 });
 

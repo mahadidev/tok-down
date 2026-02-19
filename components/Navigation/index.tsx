@@ -7,6 +7,7 @@ import { setNavHeight, useDispatch } from '../../redux';
 import { FiMenu, FiX } from 'react-icons/fi';
 
 const navLinks = [
+	{ name: 'Blog', href: '/blog' },
 	{ name: 'Features', href: '#features' },
 	{ name: 'How It Works', href: '#how-it-works' },
 ];

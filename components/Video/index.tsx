@@ -1,14 +1,11 @@
 'use client';
 
-import axios from 'axios';
 import Image from 'next/image';
-import 'node_modules/video-react/dist/video-react.css';
 import React, { useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AiOutlineDownload, AiOutlineLoading3Quarters, AiFillCheckCircle } from 'react-icons/ai';
 import { MdOutlineContentCopy } from 'react-icons/md';
 import { FiCopy } from 'react-icons/fi';
-import { Player } from 'video-react';
 import { formatNumber, truncateText } from '../../lib/utils';
 
 const Video = ({
@@ -21,7 +18,7 @@ const Video = ({
 		cover: string;
 		wmplay: string;
 		origin_cover: string;
-		author?: { id: number; unique_id: string; avatar: string; nickname: string };
+		author?: { id: string | number; unique_id: string; avatar: string; nickname: string };
 		stats?: { play_count?: number; digg_count?: number; comment_count?: number; share_count?: number };
 	};
 }) => {
@@ -62,11 +59,15 @@ const Video = ({
 		>
 			{/* Video Player */}
 			<div className="relative aspect-[9/16] bg-black">
-				<Player
+				<video
 					playsInline
 					poster={videoData.origin_cover || videoData.cover}
-					src={videoData.play}
-				/>
+					className="w-full h-full object-cover"
+					controls
+					preload="metadata"
+				>
+					<source src={videoData.play} type="video/mp4" />
+				</video>
 
 				{/* Stats Overlay (on hover) */}
 				{videoData.stats && (

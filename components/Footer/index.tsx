@@ -28,14 +28,14 @@ const Footer = () => {
 	];
 
 	const companyLinks = [
-		{ name: 'About', href: '#' },
-		{ name: 'Blog', href: '#' },
-		{ name: 'Contact', href: '#' },
+		{ name: 'About', href: '/about' },
+		{ name: 'Blog', href: '/blog' },
+		{ name: 'Contact', href: '/contact' },
 	];
 
 	const legalLinks = [
-		{ name: 'Privacy Policy', href: '#' },
-		{ name: 'Terms of Service', href: '#' },
+		{ name: 'Privacy Policy', href: '/privacy' },
+		{ name: 'Terms of Service', href: '/terms' },
 		{ name: 'Disclaimer', href: '#' },
 	];
 
