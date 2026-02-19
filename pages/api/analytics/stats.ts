@@ -134,13 +134,11 @@ export default async function handler(
 			viewsToday: viewsToday || 0,
 			viewsThisWeek: viewsThisWeek || 0,
 			viewsThisMonth: viewsThisMonth || 0,
+			totalPosts: totalPosts || 0,
 			topPages,
 			dailyViews,
 			referrers,
 		};
-
-		// Add total posts to stats
-		(stats as any).totalPosts = totalPosts || 0;
 
 		return res.status(200).json({
 			success: true,

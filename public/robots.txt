@@ -1,0 +1,11 @@
+# robots.txt for Tok Down
+
+User-agent: *
+Allow: /
+
+# Disallow admin and API areas
+Disallow: /admin/
+Disallow: /api/
+
+# Sitemap location
+Sitemap: https://tokdown.vercel.app/sitemap.xml

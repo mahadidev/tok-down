@@ -6,6 +6,7 @@ export const usePageTracking = () => {
 
 	useEffect(() => {
 		if (typeof window === 'undefined') return;
+		if (!pathname) return;
 
 		// Don't track admin pages
 		if (pathname.startsWith('/admin')) return;

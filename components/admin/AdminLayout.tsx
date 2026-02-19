@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 import React, { useState } from 'react';
 import { signOut, useSession } from 'next-auth/react';
 import {
@@ -47,7 +48,11 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
 	};
 
 	return (
-		<div className="min-h-screen bg-[#121314] text-white flex flex-col lg:flex-row">
+		<>
+			<Head>
+				<meta name="robots" content="noindex, nofollow" />
+			</Head>
+			<div className="min-h-screen bg-[#121314] text-white flex flex-col lg:flex-row">
 			{/* Mobile Header */}
 			<div className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-black/90 border-b border-white/10">
 				<div className="flex items-center justify-between px-4 py-3">
@@ -149,6 +154,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
 				<main className="p-4 lg:p-8">{children}</main>
 			</div>
 		</div>
+		</>
 	);
 };
 

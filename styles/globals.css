@@ -118,4 +118,13 @@
 	.float-delay-1 { animation-delay: 0s; }
 	.float-delay-2 { animation-delay: 1s; }
 	.float-delay-3 { animation-delay: 2s; }
+
+	/* Hide scrollbar but keep functionality */
+	.scrollbar-hide {
+		-ms-overflow-style: none;  /* IE and Edge */
+		scrollbar-width: none;  /* Firefox */
+	}
+	.scrollbar-hide::-webkit-scrollbar {
+		display: none;  /* Chrome, Safari and Opera */
+	}
 }

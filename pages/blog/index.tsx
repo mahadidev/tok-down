@@ -5,6 +5,8 @@ import { Navigation, Footer } from '../../components';
 import BlogCard from '../../components/blog/BlogCard';
 import { BlogPost } from '@/types/blog';
 import { FiSearch } from 'react-icons/fi';
+import { SEO } from '../../components/SEO';
+import { BreadcrumbSchema } from '../../components/StructuredData';
 
 export default function BlogPage() {
 	const [posts, setPosts] = useState<BlogPost[]>([]);
@@ -36,7 +38,19 @@ export default function BlogPage() {
 	);
 
 	return (
-		<div className="min-h-screen flex flex-col bg-[#121314] text-white">
+		<>
+			<SEO
+				title="Blog"
+				description="Tips, tutorials, and insights about TikTok video downloading and more. Stay updated with the latest features and best practices."
+				url="/blog"
+			/>
+			<BreadcrumbSchema
+				items={[
+					{ name: 'Home', url: 'https://tokdown.vercel.app/' },
+					{ name: 'Blog', url: 'https://tokdown.vercel.app/blog' },
+				]}
+			/>
+			<div className="min-h-screen flex flex-col bg-[#121314] text-white">
 			<Navigation />
 
 			<main className="flex-1">
@@ -90,5 +104,6 @@ export default function BlogPage() {
 
 			<Footer />
 		</div>
+		</>
 	);
 }

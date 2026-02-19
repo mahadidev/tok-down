@@ -80,6 +80,7 @@ export interface AnalyticsStats {
 	viewsToday: number;
 	viewsThisWeek: number;
 	viewsThisMonth: number;
+	totalPosts: number;
 	topPages: Array<{
 		page_path: string;
 		views: number;

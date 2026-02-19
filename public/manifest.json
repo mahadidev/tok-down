@@ -1,0 +1,17 @@
+{
+  "name": "Tok Down",
+  "short_name": "Tok Down",
+  "description": "Download TikTok videos without watermarks. Fast, free, and easy to use.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#121314",
+  "theme_color": "#121314",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "48x48",
+      "type": "image/x-icon"
+    }
+  ]
+}

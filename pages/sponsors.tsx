@@ -2,10 +2,24 @@
 
 import { Navigation, Footer } from '../components';
 import { FiHeart } from 'react-icons/fi';
+import { SEO } from '../components/SEO';
+import { BreadcrumbSchema } from '../components/StructuredData';
 
 export default function SponsorsPage() {
 	return (
-		<div className="min-h-screen flex flex-col bg-[#121314] text-white">
+		<>
+			<SEO
+				title="Sponsor Tok Down"
+				description="Help us keep Tok Down free and accessible to everyone. Your support enables us to maintain servers, improve features, and provide the best service possible."
+				url="/sponsors"
+			/>
+			<BreadcrumbSchema
+				items={[
+					{ name: 'Home', url: 'https://tokdown.vercel.app/' },
+					{ name: 'Sponsors', url: 'https://tokdown.vercel.app/sponsors' },
+				]}
+			/>
+			<div className="min-h-screen flex flex-col bg-[#121314] text-white">
 			<Navigation />
 
 			<main className="flex-1">
@@ -55,5 +69,6 @@ export default function SponsorsPage() {
 
 			<Footer />
 		</div>
+		</>
 	);
 }

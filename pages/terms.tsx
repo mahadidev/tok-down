@@ -1,10 +1,24 @@
 'use client';
 
 import { Navigation, Footer } from '../components';
+import { SEO } from '../components/SEO';
+import { BreadcrumbSchema } from '../components/StructuredData';
 
 export default function TermsOfServicePage() {
 	return (
-		<div className="min-h-screen flex flex-col bg-[#121314] text-white">
+		<>
+			<SEO
+				title="Terms of Service"
+				description="Read the Terms of Service for Tok Down. Learn about your rights and responsibilities when using our TikTok video downloader service."
+				url="/terms"
+			/>
+			<BreadcrumbSchema
+				items={[
+					{ name: 'Home', url: 'https://tokdown.vercel.app/' },
+					{ name: 'Terms', url: 'https://tokdown.vercel.app/terms' },
+				]}
+			/>
+			<div className="min-h-screen flex flex-col bg-[#121314] text-white">
 			<Navigation />
 
 			<main className="flex-1">
@@ -191,5 +205,6 @@ export default function TermsOfServicePage() {
 
 			<Footer />
 		</div>
+		</>
 	);
 }

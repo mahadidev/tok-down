@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { FiMail, FiLock, FiAlertCircle } from 'react-icons/fi';
+import { SEO } from '../../components/SEO';
 
 export default function AdminLoginPage() {
 	const router = useRouter();
@@ -28,7 +29,6 @@ export default function AdminLoginPage() {
 				setError('Invalid email or password');
 			} else {
 				router.push('/admin');
-				router.refresh();
 			}
 		} catch (err) {
 			setError('An error occurred. Please try again.');
@@ -38,7 +38,13 @@ export default function AdminLoginPage() {
 	};
 
 	return (
-		<div className="min-h-screen bg-[#121314] text-white flex items-center justify-center p-4">
+		<>
+			<SEO
+				title="Admin Login"
+				description="Sign in to access the Tok Down admin panel."
+				noindex={true}
+			/>
+			<div className="min-h-screen bg-[#121314] text-white flex items-center justify-center p-4">
 			<div className="w-full max-w-md">
 				{/* Logo */}
 				<div className="text-center mb-8">
@@ -127,6 +133,7 @@ export default function AdminLoginPage() {
 					</a>
 				</div>
 			</div>
-		</div>
+			</div>
+		</>
 	);
 }

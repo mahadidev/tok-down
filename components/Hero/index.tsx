@@ -226,7 +226,7 @@ const Hero = () => {
 			) : (
 				<section
 					ref={heroRef}
-					className="relative overflow-hidden pb-10 sm:pb-32 md:py-48 min-h-[70vh]"
+					className="relative overflow-hidden pb-10 sm:pb-20 md:py-20 min-h-[70vh]"
 				>
 			{/* ========================================= */}
 			{/* MORPHING GRADIENT BLOBS (Background Layer) */}

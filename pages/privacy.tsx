@@ -1,10 +1,24 @@
 'use client';
 
 import { Navigation, Footer } from '../components';
+import { SEO } from '../components/SEO';
+import { BreadcrumbSchema } from '../components/StructuredData';
 
 export default function PrivacyPolicyPage() {
 	return (
-		<div className="min-h-screen flex flex-col bg-[#121314] text-white">
+		<>
+			<SEO
+				title="Privacy Policy"
+				description="Read the Privacy Policy for Tok Down. Learn how we collect, use, and protect your personal information when using our TikTok video downloader service."
+				url="/privacy"
+			/>
+			<BreadcrumbSchema
+				items={[
+					{ name: 'Home', url: 'https://tokdown.vercel.app/' },
+					{ name: 'Privacy', url: 'https://tokdown.vercel.app/privacy' },
+				]}
+			/>
+			<div className="min-h-screen flex flex-col bg-[#121314] text-white">
 			<Navigation />
 
 			<main className="flex-1">
@@ -172,5 +186,6 @@ export default function PrivacyPolicyPage() {
 
 			<Footer />
 		</div>
+		</>
 	);
 }
