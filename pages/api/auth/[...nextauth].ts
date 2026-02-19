@@ -17,8 +17,12 @@ export const authOptions = {
 
 				// Check if the email matches the admin email from env
 				// For production, you'd want proper password verification in database
-				const adminEmail = process.env.ADMIN_EMAIL || 'admin@tokdown.com';
-				const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';
+				const adminEmail = process.env.ADMIN_EMAIL;
+				const adminPassword = process.env.ADMIN_PASSWORD;
+
+				if (!adminEmail || !adminPassword) {
+					throw new Error('Admin credentials not configured');
+				}
 
 				if (
 					credentials.email === adminEmail &&

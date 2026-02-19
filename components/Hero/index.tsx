@@ -29,8 +29,7 @@ const Hero = () => {
 				url: 'https://tiktok-video-no-watermark2.p.rapidapi.com/',
 				params: { url: value, hd: '0', count: '1000' },
 				headers: {
-					'X-RapidAPI-Key':
-						'40144bbb81msh2a9340dd989447ap168327jsn5650256e8df2',
+					'X-RapidAPI-Key': process.env.NEXT_PUBLIC_RAPIDAPI_KEY || '',
 					'X-RapidAPI-Host': 'tiktok-video-no-watermark2.p.rapidapi.com',
 				},
 			};
@@ -48,8 +47,7 @@ const Hero = () => {
 					count: '1000',
 				},
 				headers: {
-					'X-RapidAPI-Key':
-						'40144bbb81msh2a9340dd989447ap168327jsn5650256e8df2',
+					'X-RapidAPI-Key': process.env.NEXT_PUBLIC_RAPIDAPI_KEY || '',
 					'X-RapidAPI-Host': 'tiktok-video-no-watermark2.p.rapidapi.com',
 				},
 			};
