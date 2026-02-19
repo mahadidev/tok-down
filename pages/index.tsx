@@ -10,12 +10,25 @@ import {
 	HowItWorks,
 } from '../components';
 import { useSelector, RootState } from '../redux';
+import { SEO } from '../components/SEO';
+import { FounderSchema, OrganizationSchema, WebsiteSchema } from '../components/StructuredData';
 
 const HomePage = () => {
 	const hasSearched = useSelector((state: RootState) => state.site.hasSearched);
 
 	return (
-		<div className="min-h-screen flex flex-col bg-black text-white">
+		<>
+			<SEO
+				title="Download TikTok Videos Without Watermark"
+				description="Download TikTok videos without watermarks. Fast, free, and easy to use. Save your favorite TikTok videos in original quality with just one click."
+				image="/opengraph-image.jpg"
+				url="/"
+				type="website"
+			/>
+			<OrganizationSchema />
+			<WebsiteSchema />
+			<FounderSchema />
+			<div className="min-h-screen flex flex-col bg-black text-white">
 			<Navigation />
 			<main className="flex-1">
 				{/* Hero Section - now includes integrated search functionality */}
@@ -43,6 +56,7 @@ const HomePage = () => {
 			</main>
 			<Footer />
 		</div>
+		</>
 	);
 };
 

@@ -1,10 +1,26 @@
 'use client';
 
 import { Navigation, Footer } from '../components';
+import { SEO } from '../components/SEO';
+import { FounderSchema, OrganizationSchema, BreadcrumbSchema } from '../components/StructuredData';
 
 export default function AboutPage() {
 	return (
-		<div className="min-h-screen flex flex-col bg-[#121314] text-white">
+		<>
+			<SEO
+				title="About Tok Down"
+				description="Learn about Tok Down - a free online tool that allows you to download TikTok videos without watermarks. Fast, easy to use, and completely free."
+				url="/about"
+			/>
+			<BreadcrumbSchema
+				items={[
+					{ name: 'Home', url: 'https://tokdown.vercel.app/' },
+					{ name: 'About', url: 'https://tokdown.vercel.app/about' },
+				]}
+			/>
+			<OrganizationSchema />
+			<FounderSchema />
+			<div className="min-h-screen flex flex-col bg-[#121314] text-white">
 			<Navigation />
 
 			<main className="flex-1">
@@ -35,9 +51,11 @@ export default function AboutPage() {
 								<div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 md:p-8">
 									<div className="flex flex-col md:flex-row items-center gap-6">
 										{/* Avatar */}
-										<div className="w-24 h-24 md:w-32 md:h-32 rounded-2xl bg-gradient-to-br from-orange-500 to-amber-600 flex items-center justify-center flex-shrink-0">
-											<span className="text-white font-bold text-4xl md:text-5xl">M</span>
-										</div>
+										<img
+											src="/img/Mahadi-Hasan-Founder.png"
+											alt="Mahadi - Founder & CEO"
+											className="w-24 h-24 md:w-32 md:h-32 rounded-2xl object-cover flex-shrink-0"
+										/>
 
 										{/* Info */}
 										<div className="text-center md:text-left flex-1">
@@ -162,5 +180,6 @@ export default function AboutPage() {
 
 			<Footer />
 		</div>
+		</>
 	);
 }
