@@ -4,11 +4,8 @@ import Link from 'next/link';
 import React, { useEffect, useRef } from 'react';
 import { setFooterHeight, useDispatch } from '../../redux';
 import {
-	FiTwitter,
-	FiInstagram,
 	FiGithub,
 	FiMail,
-	FiHeart,
 } from 'react-icons/fi';
 
 const Footer = () => {
@@ -24,7 +21,6 @@ const Footer = () => {
 	const productLinks = [
 		{ name: 'Features', href: '/#features' },
 		{ name: 'How It Works', href: '/#how-it-works' },
-		{ name: 'Pricing', href: '#pricing' },
 	];
 
 	const companyLinks = [
@@ -36,13 +32,10 @@ const Footer = () => {
 	const legalLinks = [
 		{ name: 'Privacy Policy', href: '/privacy' },
 		{ name: 'Terms of Service', href: '/terms' },
-		{ name: 'Disclaimer', href: '#' },
 	];
 
 	const socialLinks = [
-		{ name: 'Twitter', icon: <FiTwitter className="w-5 h-5" />, href: '#' },
-		{ name: 'Instagram', icon: <FiInstagram className="w-5 h-5" />, href: '#' },
-		{ name: 'GitHub', icon: <FiGithub className="w-5 h-5" />, href: '#' },
+		{ name: 'GitHub', icon: <FiGithub className="w-5 h-5" />, href: 'https://github.com/mahadidev/tok-down' },
 		{ name: 'Email', icon: <FiMail className="w-5 h-5" />, href: 'mailto:mahadi.dev.pm@gmail.com' },
 	];
 
@@ -135,9 +128,16 @@ const Footer = () => {
 
 				{/* Bottom Bar */}
 				<div className="border-t border-dark-700 mt-12 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
-					<p className="text-gray-500 text-sm flex items-center gap-1">
-						© {new Date().getFullYear()} Tok Down. Made with{' '}
-						<FiHeart className="w-4 h-4 text-red-500" /> for the community.
+					<p className="text-gray-500 text-sm">
+						© {new Date().getFullYear()} Tok Down. Developed by{' '}
+						<a
+							href="https://mahadidev.vercel.app/"
+							target="_blank"
+							rel="noopener noreferrer"
+							className="text-orange-400 hover:text-orange-300 transition-colors"
+						>
+							Mahadi Hasan
+						</a>
 					</p>
 					<p className="text-gray-500 text-sm">
 						This site is not affiliated with TikTok.
