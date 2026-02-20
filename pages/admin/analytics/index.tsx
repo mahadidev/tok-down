@@ -78,7 +78,7 @@ export default function AdminAnalyticsPage() {
 				<div>
 					<h1 className="text-2xl font-bold">Analytics</h1>
 					<p className="text-gray-400 mt-1">
-						Track your site's performance and visitor engagement
+						Track your site&apos;s performance and visitor engagement
 					</p>
 				</div>
 

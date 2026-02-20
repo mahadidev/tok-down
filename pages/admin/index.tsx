@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
@@ -125,7 +126,7 @@ export default function AdminDashboardPage() {
 				<div className="bg-white/5 border border-white/10 rounded-2xl p-6">
 					<h2 className="text-lg font-semibold mb-4">Quick Actions</h2>
 					<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-						<a
+						<Link
 							href="/admin/posts/new"
 							className="flex items-center gap-4 p-4 rounded-xl bg-gradient-to-r from-orange-500/20 to-amber-600/20 border border-orange-500/30 hover:from-orange-500/30 hover:to-amber-600/30 transition-all"
 						>
@@ -136,8 +137,8 @@ export default function AdminDashboardPage() {
 									Write and publish a blog post
 								</p>
 							</div>
-						</a>
-						<a
+						</Link>
+						<Link
 							href="/admin/analytics"
 							className="flex items-center gap-4 p-4 rounded-xl bg-gradient-to-r from-blue-500/20 to-cyan-600/20 border border-blue-500/30 hover:from-blue-500/30 hover:to-cyan-600/30 transition-all"
 						>
@@ -148,7 +149,7 @@ export default function AdminDashboardPage() {
 									See detailed site statistics
 								</p>
 							</div>
-						</a>
+						</Link>
 					</div>
 				</div>
 

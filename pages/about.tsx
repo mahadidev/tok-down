@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { Navigation, Footer } from '../components';
 import { SEO } from '../components/SEO';
 import { FounderSchema, OrganizationSchema, BreadcrumbSchema } from '../components/StructuredData';
@@ -41,7 +42,7 @@ export default function AboutPage() {
 								<p className="text-gray-300 leading-relaxed">
 									We understand the frustration of wanting to save a TikTok video
 									for offline viewing or sharing, only to be stuck with an
-									unwanted watermark. That's why we built Tok Down - to give you
+									unwanted watermark. That&apos;s why we built Tok Down - to give you
 									clean, watermark-free TikTok videos in just a few clicks.
 								</p>
 							</section>
@@ -51,9 +52,11 @@ export default function AboutPage() {
 								<div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 md:p-8">
 									<div className="flex flex-col md:flex-row items-center gap-6">
 										{/* Avatar */}
-										<img
+										<Image
 											src="/img/Mahadi-Hasan-Founder.png"
 											alt="Mahadi - Founder & CEO"
+											width={128}
+											height={128}
 											className="w-24 h-24 md:w-32 md:h-32 rounded-2xl object-cover flex-shrink-0"
 										/>
 
@@ -83,42 +86,42 @@ export default function AboutPage() {
 									<li className="flex items-start gap-3">
 										<span className="text-orange-400">✓</span>
 										<span>
-											<strong>No Watermark:</strong> Download clean videos without
+											<strong>{'No Watermark:'}</strong> Download clean videos without
 											any watermarks
 										</span>
 									</li>
 									<li className="flex items-start gap-3">
 										<span className="text-orange-400">✓</span>
 										<span>
-											<strong>Unlimited Downloads:</strong> No limits on the number
+											<strong>{'Unlimited Downloads:'}</strong> No limits on the number
 											of videos you can download
 										</span>
 									</li>
 									<li className="flex items-start gap-3">
 										<span className="text-orange-400">✓</span>
 										<span>
-											<strong>Fast & Easy:</strong> Download videos in seconds with
+											<strong>{'Fast & Easy:'}</strong> Download videos in seconds with
 											our streamlined interface
 										</span>
 									</li>
 									<li className="flex items-start gap-3">
 										<span className="text-orange-400">✓</span>
 										<span>
-											<strong>High Quality:</strong> Download videos in their
+											<strong>{'High Quality:'}</strong> Download videos in their
 											original quality
 										</span>
 									</li>
 									<li className="flex items-start gap-3">
 										<span className="text-orange-400">✓</span>
 										<span>
-											<strong>User Search:</strong> Browse and download all videos
+											<strong>{'User Search:'}</strong> Browse and download all videos
 											from any TikTok user
 										</span>
 									</li>
 									<li className="flex items-start gap-3">
 										<span className="text-orange-400">✓</span>
 										<span>
-											<strong>100% Free:</strong> No hidden fees or subscriptions
+											<strong>{'100% Free:'}</strong> No hidden fees or subscriptions
 										</span>
 									</li>
 								</ul>

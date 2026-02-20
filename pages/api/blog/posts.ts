@@ -24,8 +24,7 @@ export default async function handler(
 
 			// Filter by slug if getting single post
 			if (slug) {
-				query = query.eq('slug', slug as string).single();
-				const { data, error } = await query;
+				const { data, error } = await query.eq('slug', slug as string).single();
 
 				if (error) {
 					return res.status(404).json({

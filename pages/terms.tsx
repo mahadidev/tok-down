@@ -33,18 +33,18 @@ export default function TermsOfServicePage() {
 							<section>
 								<h2 className="text-2xl font-bold mb-4">1. Acceptance of Terms</h2>
 								<p className="text-gray-300 leading-relaxed">
-									By accessing or using Tok Down ("Service"), you agree to be bound by
+									{`By accessing or using Tok Down ("Service"), you agree to be bound by
 									these Terms of Service ("Terms"). If you disagree with any part of these
-									terms, you may not access the Service.
+									terms, you may not access the Service.`}
 								</p>
 							</section>
 
 							<section>
 								<h2 className="text-2xl font-bold mb-4">2. Description of Service</h2>
 								<p className="text-gray-300 leading-relaxed">
-									Tok Down is a free online tool that allows users to download TikTok videos
+									{`Tok Down is a free online tool that allows users to download TikTok videos
 									without watermarks. Our service is provided "as is" without any warranties,
-									expressed or implied.
+									expressed or implied.`}
 								</p>
 							</section>
 
@@ -70,12 +70,12 @@ export default function TermsOfServicePage() {
 								<h3 className="text-xl font-semibold mb-3 mt-6">4.2 Downloaded Videos</h3>
 								<p className="text-gray-300 leading-relaxed">
 									You are responsible for ensuring that your use of downloaded videos complies
-									with applicable copyright laws and TikTok's terms of service. We recommend:
+									with applicable copyright laws and TikTok&apos;s terms of service. We recommend:
 								</p>
 								<ul className="list-disc list-inside text-gray-300 space-y-2 ml-4">
 									<li>Using downloaded videos only for personal, non-commercial purposes</li>
 									<li>Attributing the original creator when sharing</li>
-									<li>Not re-uploading content without the creator's permission</li>
+									<li>Not re-uploading content without the creator&apos;s permission</li>
 								</ul>
 								<h3 className="text-xl font-semibold mb-3 mt-6">4.3 Our Content</h3>
 								<p className="text-gray-300 leading-relaxed">
@@ -102,9 +102,9 @@ export default function TermsOfServicePage() {
 							<section>
 								<h2 className="text-2xl font-bold mb-4">6. Disclaimer of Warranties</h2>
 								<p className="text-gray-300 leading-relaxed">
-									Tok Down is provided "as is" and "as available" without any warranties
+									{`Tok Down is provided "as is" and "as available" without any warranties
 									of any kind, either express or implied. We do not guarantee that the service
-									will be uninterrupted, secure, or error-free.
+									will be uninterrupted, secure, or error-free.`}
 								</p>
 							</section>
 

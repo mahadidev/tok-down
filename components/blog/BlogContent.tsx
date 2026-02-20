@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import { FiCalendar, FiUser } from 'react-icons/fi';
@@ -23,11 +24,13 @@ const BlogContent: React.FC<BlogContentProps> = ({ post }) => {
 		<article className="max-w-4xl mx-auto">
 			{/* Cover Image */}
 			{post.cover_image_url && (
-				<div className="aspect-[21/9] rounded-2xl overflow-hidden mb-8">
-					<img
+				<div className="aspect-[21/9] rounded-2xl overflow-hidden mb-8 relative">
+					<Image
 						src={post.cover_image_url}
 						alt={post.title}
-						className="w-full h-full object-cover"
+						fill
+						className="object-cover"
+						unoptimized
 					/>
 				</div>
 			)}

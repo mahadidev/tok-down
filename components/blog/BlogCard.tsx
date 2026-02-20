@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import { FiCalendar, FiUser, FiArrowRight } from 'react-icons/fi';
@@ -23,11 +24,13 @@ const BlogCard: React.FC<BlogCardProps> = ({ post }) => {
 		<article className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden hover:border-orange-500/50 transition-all group">
 			{/* Cover Image */}
 			{post.cover_image_url && (
-				<div className="aspect-video overflow-hidden">
-					<img
+				<div className="aspect-video overflow-hidden relative">
+					<Image
 						src={post.cover_image_url}
 						alt={post.title}
-						className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+						fill
+						className="object-cover group-hover:scale-105 transition-transform duration-500"
+						unoptimized
 					/>
 				</div>
 			)}

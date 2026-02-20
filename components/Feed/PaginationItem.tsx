@@ -17,7 +17,7 @@ const PaginationItem = ({
 		} else {
 			setActive(false);
 		}
-	}, [active]);
+	}, [active, number]);
 
 	return (
 		<div

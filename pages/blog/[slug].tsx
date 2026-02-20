@@ -65,7 +65,7 @@ export default function BlogPostPage({ slug }: { slug: string }) {
 						<div className="text-center">
 							<h1 className="text-2xl font-bold mb-4">Post Not Found</h1>
 							<p className="text-gray-400 mb-8">
-								The post you're looking for doesn't exist.
+								The post you&apos;re looking for doesn&apos;t exist.
 							</p>
 							<Link
 								href="/blog"
@@ -89,16 +89,16 @@ export default function BlogPostPage({ slug }: { slug: string }) {
 					<SEO
 						title={post.title}
 						description={post.excerpt || post.title}
-						image={post.coverImage}
+						image={post.cover_image_url ?? undefined}
 						url={`/blog/${post.slug}`}
 						type="article"
 					/>
 					<ArticleSchema
 						headline={post.title}
-						image={post.coverImage}
-						datePublished={post.createdAt || new Date().toISOString()}
-						dateModified={post.updatedAt || post.createdAt || new Date().toISOString()}
-						authorName={post.author?.name || 'Mahadi'}
+						image={post.cover_image_url ?? undefined}
+						datePublished={post.created_at || new Date().toISOString()}
+						dateModified={post.updated_at || post.created_at || new Date().toISOString()}
+						authorName={'Mahadi'}
 						description={post.excerpt || post.title}
 						url={`https://tokdown.vercel.app/blog/${post.slug}`}
 					/>

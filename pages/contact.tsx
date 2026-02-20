@@ -56,7 +56,7 @@ export default function ContactPage() {
 					<div className="max-w-2xl mx-auto">
 						<h1 className="text-4xl font-bold mb-4">Contact Us</h1>
 						<p className="text-gray-400 text-lg mb-12">
-							Have a question, feedback, or suggestion? We'd love to hear from you.
+							Have a question, feedback, or suggestion? We&apos;d love to hear from you.
 						</p>
 
 						{submitted ? (
@@ -64,7 +64,7 @@ export default function ContactPage() {
 								<div className="text-6xl mb-4">✓</div>
 								<h2 className="text-2xl font-bold mb-2">Message Sent!</h2>
 								<p className="text-gray-400">
-									Thank you for reaching out. We'll get back to you soon.
+									Thank you for reaching out. We&apos;ll get back to you soon.
 								</p>
 								<button
 									onClick={() => setSubmitted(false)}
