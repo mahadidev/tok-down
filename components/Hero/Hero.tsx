@@ -23,11 +23,11 @@ const Hero = () => {
 		let options = null;
 
 		if (value.includes('tiktok.com') && value.includes('/video/')) {
-			// get video by url
+			// get video by url - use root endpoint
 			options = {
 				method: 'GET',
 				url: 'https://tiktok-video-no-watermark2.p.rapidapi.com/',
-				params: { url: value, hd: '0', count: '1000' },
+				params: { url: value, hd: '0' },
 				headers: {
 					'X-RapidAPI-Key': process.env.NEXT_PUBLIC_RAPIDAPI_KEY || '',
 					'X-RapidAPI-Host': 'tiktok-video-no-watermark2.p.rapidapi.com',
@@ -54,6 +54,16 @@ const Hero = () => {
 		}
 
 		if (options) {
+			// Debug logging for video URL requests
+			if (value.includes('tiktok.com') && value.includes('/video/')) {
+				console.log('[DEBUG] Video URL Request:', {
+					url: options.url,
+					params: options.params,
+					headers: options.headers,
+					method: options.method,
+				});
+			}
+
 			axios
 				.request(options)
 				.then(function (response) {
@@ -110,8 +120,21 @@ const Hero = () => {
 					}
 				})
 				.catch(function (err) {
-					console.error(err);
-					setError('Something went wrong. Please try again.');
+					console.error('[ERROR] API Request Failed:', {
+						message: err.message,
+						status: err.response?.status,
+						statusText: err.response?.statusText,
+						data: err.response?.data,
+					});
+
+					// Show detailed error for API key issues
+					if (err.response?.status === 401) {
+						setError('Invalid API key. Please check your configuration.');
+					} else if (err.response?.data?.message) {
+						setError(err.response.data.message);
+					} else {
+						setError('Something went wrong. Please try again.');
+					}
 					dispatch(setVideoLoading(false));
 				});
 		}

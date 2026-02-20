@@ -17,6 +17,7 @@ export const API_CONFIG = {
  */
 export const API_ENDPOINTS = {
 	USER_POSTS: '/user/posts',
+	// Endpoint for getting video by URL (root endpoint per API docs)
 	VIDEO_BY_URL: '/',
 } as const;
 

@@ -61,6 +61,9 @@ export const createApiClient = (): AxiosInstance => {
 	const client = axios.create({
 		baseURL: API_CONFIG.BASE_URL,
 		timeout: API_CONFIG.TIMEOUT,
+		paramsSerializer: {
+			indexes: null, // Handle array parameters properly
+		},
 		headers: {
 			...DEFAULT_HEADERS,
 			'X-RapidAPI-Key': API_CONFIG.KEY,
