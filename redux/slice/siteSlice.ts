@@ -1,19 +1,9 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
+import { SiteState, SetVideosPayload, SetPaginationPayload } from '@/types/redux';
+import { TikTokVideo } from '@/types/tiktok';
 
-export interface siteState {
-	navHeight?: number;
-	footerHeight?: number;
-	feedTitle?: any;
-	videos?: any;
-	videoLoading?: boolean;
-	currentPage: number;
-	perPage: number;
-	hasSearched: boolean;
-	searchTerm: string | null;
-}
-
-const initialState: siteState = {
+const initialState: SiteState = {
 	navHeight: 0,
 	footerHeight: 0,
 	feedTitle: null,
@@ -38,17 +28,13 @@ export const themeSlice = createSlice({
 		setVideoLoading: (state, action: PayloadAction<boolean>) => {
 			state.videoLoading = action.payload;
 		},
-		setVidoes: (state, action: PayloadAction<any>) => {
+		setVidoes: (state, action: PayloadAction<SetVideosPayload>) => {
 			state.feedTitle = action.payload.title;
 			state.videos = action.payload.videos;
 		},
-		setPagination: (state, action: PayloadAction<any>) => {
-			state.currentPage = action.payload.currentPage
-				? action.payload.currentPage
-				: state.currentPage;
-			state.perPage = action.payload.perPage
-				? action.payload.perPage
-				: state.perPage;
+		setPagination: (state, action: PayloadAction<SetPaginationPayload>) => {
+			state.currentPage = action.payload.currentPage ?? state.currentPage;
+			state.perPage = action.payload.perPage ?? state.perPage;
 		},
 		setHasSearched: (state, action: PayloadAction<boolean>) => {
 			state.hasSearched = action.payload;

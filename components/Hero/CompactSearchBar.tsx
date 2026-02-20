@@ -1,0 +1,98 @@
+/**
+ * Compact Search Bar Component
+ * Compact version shown when hasSearched is true
+ */
+
+'use client';
+
+import React, { forwardRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FiSearch, FiAlertCircle, FiX } from 'react-icons/fi';
+import { CompactSearchBarProps } from '@/types/components';
+
+export const CompactSearchBar = forwardRef<HTMLInputElement, CompactSearchBarProps>(
+	(
+		{
+			value,
+			onChange,
+			onSearch,
+			onClear,
+			isLoading,
+			error,
+			placeholder = '@username or paste video URL...',
+			onKeyDown,
+		},
+		ref
+	) => {
+		const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+			if (e.key === 'Enter') {
+				onSearch();
+			}
+			onKeyDown?.(e);
+		};
+
+		return (
+			<section className="py-6 border-b border-dark-700">
+				<div className="container">
+					<div className="flex items-center gap-4 max-w-3xl mx-auto">
+						<div className="relative flex-1">
+							<div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none">
+								<FiSearch className="w-5 h-5" />
+							</div>
+							<input
+								ref={ref}
+								value={value}
+								onChange={(e) => onChange(e.target.value)}
+								onClick={() => onChange('')} // Reset error on click
+								onKeyDown={handleKeyDown}
+								className="w-full h-12 pl-12 pr-4 bg-dark-800/50 border border-dark-700 rounded-xl text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
+								placeholder={placeholder}
+							/>
+						</div>
+						<button
+							onClick={onSearch}
+							disabled={isLoading}
+							className="px-6 h-12 bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white font-medium rounded-xl shadow-lg shadow-orange-500/25 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center gap-2 whitespace-nowrap"
+						>
+							{isLoading ? (
+								<svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+									<circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+									<path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+								</svg>
+							) : (
+								<>
+									<FiSearch className="w-4 h-4" />
+									Search
+								</>
+							)}
+						</button>
+						<button
+							onClick={onClear}
+							className="px-4 h-12 bg-dark-800 hover:bg-dark-700 border border-dark-700 text-gray-300 hover:text-white rounded-xl transition-all flex items-center gap-2 whitespace-nowrap"
+						>
+							<FiX className="w-4 h-4" />
+							<span className="hidden sm:inline">Clear</span>
+						</button>
+					</div>
+					{/* Error message in compact mode */}
+					<AnimatePresence>
+						{error && (
+							<motion.div
+								initial={{ opacity: 0, y: -10 }}
+								animate={{ opacity: 1, y: 0 }}
+								exit={{ opacity: 0, y: -10 }}
+								transition={{ duration: 0.2 }}
+								className="mt-3 flex items-center gap-2 text-red-400 max-w-3xl mx-auto"
+							>
+								<FiAlertCircle className="w-4 h-4 flex-shrink-0" />
+								<span className="text-sm">{error}</span>
+							</motion.div>
+						)}
+					</AnimatePresence>
+				</div>
+			</section>
+		);
+	}
+);
+
+CompactSearchBar.displayName = 'CompactSearchBar';
