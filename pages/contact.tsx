@@ -1,12 +1,16 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import { Navigation, Footer } from '../components';
 import { FiMail, FiSend } from 'react-icons/fi';
+import { AiFillCheckCircle } from 'react-icons/ai';
+import { motion } from 'framer-motion';
 import { SEO } from '../components/SEO';
 import { BreadcrumbSchema } from '../components/StructuredData';
 
 export default function ContactPage() {
+	const router = useRouter();
 	const [formData, setFormData] = useState({
 		name: '',
 		email: '',
@@ -14,26 +18,27 @@ export default function ContactPage() {
 		message: '',
 	});
 	const [loading, setLoading] = useState(false);
-	const [submitted, setSubmitted] = useState(false);
 
-	const handleSubmit = async (e: React.FormEvent) => {
-		e.preventDefault();
-		setLoading(true);
-
-		// For now, just simulate sending
-		// In production, you'd integrate with a form service or email API
-		setTimeout(() => {
+	// Check for success query param on mount
+	useEffect(() => {
+		if (router.query.success === 'true') {
 			setLoading(false);
-			setSubmitted(true);
 			setFormData({ name: '', email: '', subject: '', message: '' });
-		}, 1000);
-	};
+		}
+	}, [router.query]);
 
 	const handleChange = (
 		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
 	) => {
 		setFormData({ ...formData, [e.target.name]: e.target.value });
 	};
+
+	const handleSubmit = (e: React.FormEvent) => {
+		setLoading(true);
+		// FormSubmit handles the actual submission via native form action
+	};
+
+	const isSuccess = router.query.success === 'true';
 
 	return (
 		<>
@@ -59,22 +64,48 @@ export default function ContactPage() {
 							Have a question, feedback, or suggestion? We&apos;d love to hear from you.
 						</p>
 
-						{submitted ? (
-							<div className="bg-green-500/20 border border-green-500/30 rounded-2xl p-8 text-center">
-								<div className="text-6xl mb-4">✓</div>
-								<h2 className="text-2xl font-bold mb-2">Message Sent!</h2>
-								<p className="text-gray-400">
+						{isSuccess ? (
+						<motion.div
+							initial={{ opacity: 0, scale: 0.95, y: 20 }}
+							animate={{ opacity: 1, scale: 1, y: 0 }}
+							transition={{ duration: 0.4, ease: "easeOut" }}
+							className="bg-dark-700 border-2 border-orange-500/30 rounded-2xl p-10 text-center relative overflow-hidden"
+						>
+							{/* Animated background glow effect */}
+							<div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 to-transparent" />
+
+							<div className="relative">
+								{/* Icon with glow */}
+								<div className="inline-flex items-center justify-center w-20 h-20 bg-orange-500/20 rounded-full mb-6 ring-2 ring-orange-500/30">
+									<AiFillCheckCircle className="w-10 h-10 text-orange-400" />
+								</div>
+
+								<h2 className="text-3xl font-bold text-white mb-3">Message Sent!</h2>
+								<p className="text-gray-400 mb-8">
 									Thank you for reaching out. We&apos;ll get back to you soon.
 								</p>
+
 								<button
-									onClick={() => setSubmitted(false)}
-									className="mt-6 px-6 py-3 bg-gradient-to-r from-orange-500 to-amber-600 rounded-xl font-medium hover:from-orange-600 hover:to-amber-700 transition-all"
+									onClick={() => router.push('/contact')}
+									className="px-8 py-3 bg-gradient-to-r from-orange-500 to-amber-600 text-white rounded-xl font-medium hover:from-orange-600 hover:to-amber-700 transition-all"
 								>
 									Send Another Message
 								</button>
 							</div>
-						) : (
-							<form onSubmit={handleSubmit} className="space-y-6">
+						</motion.div>
+					) : (
+							<form
+								action="https://formsubmit.co/mahadi.dev.pm@gmail.com"
+								method="POST"
+								onSubmit={handleSubmit}
+								className="space-y-6"
+							>
+								{/* FormSubmit configuration */}
+								<input type="hidden" name="_subject" value="New contact from Tok Down" />
+								<input type="hidden" name="_captcha" value="false" />
+								<input type="hidden" name="_template" value="table" />
+								<input type="hidden" name="_next" value="https://tokdown.vercel.app/contact?success=true" />
+
 								<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 									<div>
 										<label
