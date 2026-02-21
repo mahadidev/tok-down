@@ -22,7 +22,17 @@ const Hero = () => {
 	const getUserPost = (value: string) => {
 		let options = null;
 
-		if (value.includes('tiktok.com') && value.includes('/video/')) {
+		if (
+			// Standard video URL: www.tiktok.com/@user/video/ID
+			(value.includes('tiktok.com') && value.includes('/video/')) ||
+			// Shortened URLs: vm.tiktok.com or vt.tiktok.com
+			value.includes('vm.tiktok.com') ||
+			value.includes('vt.tiktok.com') ||
+			// Mobile URLs: m.tiktok.com/v/
+			(value.includes('m.tiktok.com') && value.includes('/v/')) ||
+			// New short format: www.tiktok.com/t/
+			value.includes('tiktok.com/t/')
+		) {
 			// get video by url - use root endpoint
 			options = {
 				method: 'GET',
@@ -54,16 +64,6 @@ const Hero = () => {
 		}
 
 		if (options) {
-			// Debug logging for video URL requests
-			if (value.includes('tiktok.com') && value.includes('/video/')) {
-				console.log('[DEBUG] Video URL Request:', {
-					url: options.url,
-					params: options.params,
-					headers: options.headers,
-					method: options.method,
-				});
-			}
-
 			axios
 				.request(options)
 				.then(function (response) {
