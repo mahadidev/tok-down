@@ -8,6 +8,44 @@ import { RootState, useSelector } from '../../redux';
 import axios from 'axios';
 import Image from 'next/image';
 
+// Helper function to determine search type
+const getSearchType = (value: string): 'username' | 'url' => {
+	if (
+		(value.includes('tiktok.com') && value.includes('/video/')) ||
+		value.includes('vm.tiktok.com') ||
+		value.includes('vt.tiktok.com') ||
+		(value.includes('m.tiktok.com') && value.includes('/v/')) ||
+		value.includes('tiktok.com/t/')
+	) {
+		return 'url';
+	}
+	return 'username';
+};
+
+// Helper function to track searches asynchronously
+const trackSearch = async (
+	searchTerm: string,
+	searchType: 'username' | 'url',
+	resultCount: number,
+	status: 'success' | 'error',
+) => {
+	try {
+		await fetch('/api/search/track', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({
+				search_term: searchTerm,
+				search_type: searchType,
+				result_count: resultCount,
+				status,
+			}),
+		});
+	} catch (err) {
+		// Silently fail - don't disrupt user experience
+		console.error('Search tracking failed:', err);
+	}
+};
+
 const Hero = () => {
 	const dispatch = useDispatch();
 	const siteState = useSelector((state: RootState) => state.site);
@@ -46,6 +84,8 @@ const Hero = () => {
 		} else if (!value.includes('tiktok.com') && !value.includes('@')) {
 			setError('Please enter a correct username with @');
 			dispatch(setVideoLoading(false));
+			// Track validation error
+			trackSearch(value, getSearchType(value), 0, 'error');
 			return;
 		} else {
 			// get user videos by username
@@ -110,13 +150,19 @@ const Hero = () => {
 								})
 							);
 							dispatch(setVideoLoading(false));
+							// Track successful search
+							trackSearch(value, getSearchType(value), videoArray.length, 'success');
 						} else {
 							setError('No videos found. The user may only have photo posts.');
 							dispatch(setVideoLoading(false));
+							// Track search with no results
+							trackSearch(value, getSearchType(value), 0, 'success');
 						}
 					} else {
 						setError('Username or video URL is incorrect');
 						dispatch(setVideoLoading(false));
+						// Track failed search
+						trackSearch(value, getSearchType(value), 0, 'error');
 					}
 				})
 				.catch(function (err) {
@@ -136,6 +182,8 @@ const Hero = () => {
 						setError('Something went wrong. Please try again.');
 					}
 					dispatch(setVideoLoading(false));
+					// Track failed search (network/API error)
+					trackSearch(value, getSearchType(value), 0, 'error');
 				});
 		}
 	};
