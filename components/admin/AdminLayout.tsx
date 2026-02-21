@@ -13,6 +13,7 @@ import {
 	FiMenu,
 	FiX,
 	FiPlus,
+	FiSearch,
 } from 'react-icons/fi';
 
 interface AdminLayoutProps {
@@ -39,6 +40,11 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
 			name: 'Analytics',
 			href: '/admin/analytics',
 			icon: <FiBarChart2 className="w-5 h-5" />,
+		},
+		{
+			name: 'Search Analytics',
+			href: '/admin/search-analytics',
+			icon: <FiSearch className="w-5 h-5" />,
 		},
 	];
 
