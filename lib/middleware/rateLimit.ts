@@ -56,6 +56,11 @@ export function checkRateLimit(
 // Rate limit middleware for API routes
 export function createRateLimiter(config: RateLimitConfig) {
 	return async (request: NextRequest): Promise<NextResponse | null> => {
+		// Skip rate limiting in development
+		if (process.env.NODE_ENV === 'development') {
+			return null;
+		}
+
 		const clientId = getClientId(request);
 		const result = checkRateLimit(clientId, config);
 

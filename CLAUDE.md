@@ -15,6 +15,13 @@ npm run start    # Start production server
 npm run lint     # Run ESLint
 ```
 
+## Development Server
+
+The application runs locally on **port 8001**: `http://localhost:3000`
+
+**Important**: Never kill running `npm run dev`
+processes if they are already running. Instead, clear cache when needed:
+
 ## Architecture
 
 ### State Management
