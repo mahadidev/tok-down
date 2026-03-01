@@ -4,11 +4,12 @@
 
 /**
  * API Configuration
+ * IMPORTANT: RAPIDAPI_KEY is server-side only - never expose to client
  */
 export const API_CONFIG = {
 	BASE_URL: 'https://tiktok-video-no-watermark2.p.rapidapi.com',
 	HOST: 'tiktok-video-no-watermark2.p.rapidapi.com',
-	KEY: process.env.NEXT_PUBLIC_RAPIDAPI_KEY || '',
+	KEY: process.env.RAPIDAPI_KEY || '',
 	TIMEOUT: 30000, // 30 seconds
 } as const;
 

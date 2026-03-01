@@ -72,12 +72,20 @@ Visit `http://localhost:3000`
 ### Login
 - URL: `http://localhost:3000/admin/login`
 - Email: The value from `ADMIN_EMAIL` in `.env.local`
-- Password: `admin123` (default - change in production!)
+- Password: `admin123` (default - **CHANGE IN PRODUCTION!**)
 
 ### First Time Setup
 1. Go to `/admin/login` and log in
 2. Navigate to Categories and Tags to create your blog taxonomy
 3. Create your first blog post
+
+### ⚠️ PRODUCTION SECURITY WARNING
+Before deploying to production:
+1. Change `ADMIN_PASSWORD` to a strong password (min 16 chars)
+2. Consider implementing bcrypt hashing for credentials
+3. Set up proper authentication with Supabase Auth
+4. Enable HTTPS only for admin routes
+5. Implement account lockout after failed login attempts
 
 ---
 
@@ -142,10 +150,14 @@ ADMIN_EMAIL=
 ## 🛡️ Security Notes
 
 ### For Production
-1. **Change admin password** - Update the password check in `pages/api/auth/[...nextauth].ts`
+1. **CRITICAL: Change admin password** - Update `ADMIN_PASSWORD` in `.env.local` with a strong password:
+   - Generate with: `openssl rand -base64 24`
+   - Minimum 16 characters with mixed case, numbers, and symbols
+   - Never commit production credentials to git
 2. **Enable proper auth** - Implement Supabase Auth for admin users
 3. **Set up RLS policies** - Review Row Level Security in Supabase
 4. **Use service role key** - For server-side operations
+5. **Environment variables** - Ensure `RAPIDAPI_KEY` is NOT prefixed with `NEXT_PUBLIC_`
 
 ### Row Level Security (RLS)
 The schema includes basic RLS policies. For production:

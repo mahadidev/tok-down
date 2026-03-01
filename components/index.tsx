@@ -9,6 +9,9 @@ export { default as Features } from './Features';
 export { default as Stats } from './Stats';
 export { default as HowItWorks } from './HowItWorks';
 
+// Error handling
+export { ErrorBoundary, withErrorBoundary, useErrorHandler } from './ErrorBoundary';
+
 // Re-export UI components
 export * from './ui';
 export * from './animations';
