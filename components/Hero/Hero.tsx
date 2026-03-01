@@ -3,7 +3,7 @@
 import React, { useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiSearch, FiAlertCircle, FiDownload, FiHeart, FiMessageCircle, FiShare2, FiX } from 'react-icons/fi';
-import { useDispatch, setPagination, setVideoLoading, setVidoes, setHasSearched, setSearchTerm } from '../../redux';
+import { useDispatch, setPagination, setVideoLoading, setVideos, setHasSearched, setSearchTerm } from '../../redux';
 import { RootState, useSelector } from '../../redux';
 import axios from 'axios';
 import Image from 'next/image';
@@ -57,134 +57,98 @@ const Hero = () => {
 	const searchTerm = siteState.searchTerm || '';
 
 	// Search functions
-	const getUserPost = (value: string) => {
-		let options = null;
-
-		if (
-			// Standard video URL: www.tiktok.com/@user/video/ID
+	const getUserPost = async (value: string) => {
+		// Determine if this is a video URL or username search
+		const isVideoUrl =
 			(value.includes('tiktok.com') && value.includes('/video/')) ||
-			// Shortened URLs: vm.tiktok.com or vt.tiktok.com
 			value.includes('vm.tiktok.com') ||
 			value.includes('vt.tiktok.com') ||
-			// Mobile URLs: m.tiktok.com/v/
 			(value.includes('m.tiktok.com') && value.includes('/v/')) ||
-			// New short format: www.tiktok.com/t/
-			value.includes('tiktok.com/t/')
-		) {
-			// get video by url - use root endpoint
-			options = {
-				method: 'GET',
-				url: 'https://tiktok-video-no-watermark2.p.rapidapi.com/',
-				params: { url: value, hd: '0' },
-				headers: {
-					'X-RapidAPI-Key': process.env.NEXT_PUBLIC_RAPIDAPI_KEY || '',
-					'X-RapidAPI-Host': 'tiktok-video-no-watermark2.p.rapidapi.com',
-				},
-			};
-		} else if (!value.includes('tiktok.com') && !value.includes('@')) {
+			value.includes('tiktok.com/t/');
+
+		// Validate username format
+		if (!isVideoUrl && !value.includes('tiktok.com') && !value.includes('@')) {
 			setError('Please enter a correct username with @');
 			dispatch(setVideoLoading(false));
-			// Track validation error
 			trackSearch(value, getSearchType(value), 0, 'error');
 			return;
-		} else {
-			// get user videos by username
-			options = {
-				method: 'GET',
-				url: 'https://tiktok-video-no-watermark2.p.rapidapi.com/user/posts',
-				params: {
-					unique_id: value,
-					count: '1000',
-				},
-				headers: {
-					'X-RapidAPI-Key': process.env.NEXT_PUBLIC_RAPIDAPI_KEY || '',
-					'X-RapidAPI-Host': 'tiktok-video-no-watermark2.p.rapidapi.com',
-				},
-			};
 		}
 
-		if (options) {
-			axios
-				.request(options)
-				.then(function (response) {
-					if (response.data.msg === 'success') {
-						// Transform video data to match frontend expectations
-						const transformVideoData = (video: any) => ({
-							...video,
-							author: video.author ? {
-								...video.author,
-								id: Number(video.author.id) // Convert string to number
-							} : undefined,
-							stats: {
-								play_count: video.play_count,
-								digg_count: video.digg_count,
-								comment_count: video.comment_count,
-								share_count: video.share_count
-							}
-						});
+		// Call internal API proxy
+		const apiUrl = isVideoUrl ? '/api/tiktok/video' : '/api/tiktok/search';
+		const requestBody = isVideoUrl ? { url: value } : { username: value };
 
-						// Filter out photo mode posts (images instead of video)
-						const isVideoPost = (video: any) =>
-							!video.images && video.duration > 0;
-
-						let videoArray = null;
-						let feedTitle = null;
-						if (response.data.data.videos) {
-							videoArray = response.data.data.videos
-								.filter(isVideoPost)
-								.map(transformVideoData);
-							feedTitle = 'User Videos';
-						} else {
-							const singleVideo = transformVideoData(response.data.data);
-							if (isVideoPost(response.data.data)) {
-								videoArray = [singleVideo];
-							}
-							feedTitle = 'Video';
-						}
-
-						if (videoArray && videoArray.length > 0) {
-							dispatch(
-								setVidoes({
-									title: feedTitle,
-									videos: videoArray,
-								})
-							);
-							dispatch(setVideoLoading(false));
-							// Track successful search
-							trackSearch(value, getSearchType(value), videoArray.length, 'success');
-						} else {
-							setError('No videos found. The user may only have photo posts.');
-							dispatch(setVideoLoading(false));
-							// Track search with no results
-							trackSearch(value, getSearchType(value), 0, 'success');
-						}
-					} else {
-						setError('Username or video URL is incorrect');
-						dispatch(setVideoLoading(false));
-						// Track failed search
-						trackSearch(value, getSearchType(value), 0, 'error');
+		try {
+			const response = await axios.post(apiUrl, requestBody);
+			if (response.data.msg === 'success') {
+				// Transform video data to match frontend expectations
+				const transformVideoData = (video: any) => ({
+					...video,
+					author: video.author ? {
+						...video.author,
+						id: Number(video.author.id) // Convert string to number
+					} : undefined,
+					stats: {
+						play_count: video.play_count,
+						digg_count: video.digg_count,
+						comment_count: video.comment_count,
+						share_count: video.share_count
 					}
-				})
-				.catch(function (err) {
-					console.error('[ERROR] API Request Failed:', {
-						message: err.message,
-						status: err.response?.status,
-						statusText: err.response?.statusText,
-						data: err.response?.data,
-					});
-
-					// Show detailed error for API key issues
-					if (err.response?.status === 401) {
-						setError('Invalid API key. Please check your configuration.');
-					} else if (err.response?.data?.message) {
-						setError(err.response.data.message);
-					} else {
-						setError('Something went wrong. Please try again.');
-					}
-					dispatch(setVideoLoading(false));
-					// Track failed search (network/API error)
-					trackSearch(value, getSearchType(value), 0, 'error');
 				});
+
+				// Filter out photo mode posts (images instead of video)
+				const isVideoPost = (video: any) =>
+					!video.images && video.duration > 0;
+
+				let videoArray = null;
+				let feedTitle = null;
+				if (response.data.data.videos) {
+					videoArray = response.data.data.videos
+						.filter(isVideoPost)
+						.map(transformVideoData);
+					feedTitle = 'User Videos';
+				} else {
+					const singleVideo = transformVideoData(response.data.data);
+					if (isVideoPost(response.data.data)) {
+						videoArray = [singleVideo];
+					}
+					feedTitle = 'Video';
+				}
+
+				if (videoArray && videoArray.length > 0) {
+					dispatch(
+						setVideos({
+							title: feedTitle,
+							videos: videoArray,
+						})
+					);
+					dispatch(setVideoLoading(false));
+					// Track successful search
+					trackSearch(value, getSearchType(value), videoArray.length, 'success');
+				} else {
+					setError('No videos found. The user may only have photo posts.');
+					dispatch(setVideoLoading(false));
+					// Track search with no results
+					trackSearch(value, getSearchType(value), 0, 'success');
+				}
+			} else {
+				setError('Username or video URL is incorrect');
+				dispatch(setVideoLoading(false));
+				// Track failed search
+				trackSearch(value, getSearchType(value), 0, 'error');
+			}
+		} catch (err: any) {
+			console.error('[ERROR] API Request Failed:', {
+				message: err.message,
+				status: err.response?.status,
+				statusText: err.response?.statusText,
+				data: err.response?.data,
+			});
+
+			const errorMsg = err.response?.data?.error || 'Something went wrong. Please try again.';
+			setError(errorMsg);
+			dispatch(setVideoLoading(false));
+			trackSearch(value, getSearchType(value), 0, 'error');
 		}
 	};
 
@@ -208,7 +172,7 @@ const Hero = () => {
 
 	const handleClearSearch = () => {
 		dispatch(setHasSearched(false));
-		dispatch(setVidoes({ title: null, videos: null }));
+		dispatch(setVideos({ title: null, videos: null }));
 		dispatch(setSearchTerm(null));
 		setError(null);
 		if (inputRef.current) {

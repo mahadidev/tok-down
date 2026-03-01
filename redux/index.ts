@@ -4,6 +4,7 @@ export {
 	setNavHeight,
 	setPagination,
 	setVideoLoading,
+	setVideos,
 	setVidoes,
 	setHasSearched,
 	setSearchTerm,

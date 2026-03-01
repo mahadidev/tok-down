@@ -1,6 +1,23 @@
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import bcrypt from 'bcrypt';
 import { supabase } from '@/lib/supabase/client';
+
+// Helper function to verify password
+async function verifyPassword(password: string, hashedPassword: string): Promise<boolean> {
+	try {
+		return await bcrypt.compare(password, hashedPassword);
+	} catch (error) {
+		console.error('Password verification error:', error);
+		return false;
+	}
+}
+
+// Helper function to check if password is already hashed
+function isHashed(password: string): boolean {
+	// bcrypt hashes always start with $2a$, $2b$, or $2y$ followed by the cost parameter
+	return /^\$2[aby]\$\d+\$/.test(password);
+}
 
 export const authOptions = {
 	providers: [
@@ -15,8 +32,6 @@ export const authOptions = {
 					throw new Error('Email is required');
 				}
 
-				// Check if the email matches the admin email from env
-				// For production, you'd want proper password verification in database
 				const adminEmail = process.env.ADMIN_EMAIL;
 				const adminPassword = process.env.ADMIN_PASSWORD;
 
@@ -24,16 +39,21 @@ export const authOptions = {
 					throw new Error('Admin credentials not configured');
 				}
 
-				if (
-					credentials.email === adminEmail &&
-					credentials.password === adminPassword
-				) {
-					return {
-						id: '1',
-						email: adminEmail,
-						role: 'admin',
-						name: 'Admin',
-					};
+				// Check if the email matches the admin email from env
+				if (credentials.email === adminEmail) {
+					// Check if password is already hashed
+					const passwordMatch = isHashed(adminPassword)
+						? await verifyPassword(credentials.password, adminPassword)
+						: credentials.password === adminPassword;
+
+					if (passwordMatch) {
+						return {
+							id: '1',
+							email: adminEmail,
+							role: 'admin',
+							name: 'Admin',
+						};
+					}
 				}
 
 				// Check database for admin users
@@ -43,13 +63,20 @@ export const authOptions = {
 					.eq('email', credentials.email)
 					.single();
 
-				if (adminUser && credentials.password === adminPassword) {
-					return {
-						id: adminUser.id,
-						email: adminUser.email,
-						role: adminUser.role,
-						name: adminUser.email.split('@')[0],
-					};
+				if (adminUser) {
+					// Verify password hash from database
+					const passwordMatch = isHashed(adminUser.password_hash || '')
+						? await verifyPassword(credentials.password, adminUser.password_hash)
+						: credentials.password === adminUser.password_hash;
+
+					if (passwordMatch) {
+						return {
+							id: adminUser.id,
+							email: adminUser.email,
+							role: adminUser.role,
+							name: adminUser.email.split('@')[0],
+						};
+					}
 				}
 
 				throw new Error('Invalid credentials');
@@ -61,7 +88,7 @@ export const authOptions = {
 	},
 	session: {
 		strategy: 'jwt' as const,
-		maxAge: 30 * 24 * 60 * 60, // 30 days
+		maxAge: 7 * 24 * 60 * 60, // 7 days
 	},
 	callbacks: {
 		async jwt({ token, user }: any) {

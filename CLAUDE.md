@@ -54,3 +54,12 @@ Uses RapidAPI's TikTok video service (`tiktok-video-no-watermark2.p.rapidapi.com
 - `pages/_app.tsx` - Redux Provider wrapper
 - `redux/store.ts` - Store configuration
 - `pages/api/hello.ts` - Example API route (unused)
+
+## Git & GitHub Rules
+
+### Commit & Push Policy
+
+- **Never** add Claude as a co-author in commit messages (no `Co-authored-by: Claude` or any similar attribution).
+- **Never** include any AI/Claude credit, mention, or attribution in commit messages, PR descriptions, or any Git metadata.
+- Commits should only reflect the project's own authorship — keep messages clean and professional.
+- **Always** commit and push to GitHub after every change, no matter how small.

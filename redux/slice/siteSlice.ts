@@ -28,6 +28,11 @@ export const themeSlice = createSlice({
 		setVideoLoading: (state, action: PayloadAction<boolean>) => {
 			state.videoLoading = action.payload;
 		},
+		setVideos: (state, action: PayloadAction<SetVideosPayload>) => {
+			state.feedTitle = action.payload.title;
+			state.videos = action.payload.videos;
+		},
+		// Keep setVidoes as alias for backwards compatibility
 		setVidoes: (state, action: PayloadAction<SetVideosPayload>) => {
 			state.feedTitle = action.payload.title;
 			state.videos = action.payload.videos;
@@ -48,6 +53,7 @@ export const themeSlice = createSlice({
 export const {
 	setNavHeight,
 	setFooterHeight,
+	setVideos,
 	setVidoes,
 	setVideoLoading,
 	setPagination,
